@@ -1,0 +1,14 @@
+{
+  "name": "Music",
+  "version": "0.0.1",
+  "description": "A music player application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "VivekBharatha",
+  "license": "MIT",
+  "devDependencies": {
+    "electron-prebuilt": "^1.2.0"
+  }
+}
