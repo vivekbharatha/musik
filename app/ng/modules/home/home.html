@@ -1,0 +1,9 @@
+<md-content flex="100">
+    <h1 class="header-title">MusiX</h1>
+</md-content>
+<md-content flex="50" flex-offset="25">
+    <form class="musicPathForm">
+        <md-button class="md-raised" ng-click="selectFile()">Select Folder</md-button>
+        <input id="musicPath" type="file" directory webkitdirectory name="musicPath" onchange="angular.element(this).scope().onFileChange(this)" />
+    </form>
+</md-content>

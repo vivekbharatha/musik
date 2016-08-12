@@ -2,12 +2,26 @@ body {
     font-family: Roboto-Thin, "Helvetica Neue", sans-serif;
     background: #486951;
 }
+
 h1, h2, h3, h4, h5, h6, p {
     margin-bottom: 0;
 }
 
 .header-title {
     color: white;
-    margin: 0 auto;
+    margin: 0;
     border-bottom: 1px solid #eee;
+    text-align: center;
+}
+
+md-content {
+    background: transparent;
+}
+
+input[type=file] {
+    display: none;
+}
+
+.musicPathForm {
+    text-align: center;
 }
