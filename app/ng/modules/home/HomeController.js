@@ -54,15 +54,13 @@ angular.module('musix')
         };
         var Player = document.getElementById('player');
         Player.addEventListener('timeupdate', function () {
-            var currentTime = player.currentTime;
-            var duration = player.duration;
             $scope.$apply(function () {
-                $scope.progress = currentTime * 100 / duration;
+                $scope.progress = player.currentTime * 100 / player.duration;
+                $scope.time = formatTime(player.currentTime) + ' / ' + formatTime(player.duration);
             });
-        });
+        }, false);
         $scope.triggerAudio = function (song) {
             $scope.currentSong = song;
-            console.log(player.currentTime);
             Player.setAttribute('src', song.path);
             if (song.isPlaying) {
                 Player.pause();
@@ -72,5 +70,13 @@ angular.module('musix')
                 song.isPlaying = true;
             }
         };
+
+        function formatTime(inSeconds) {
+            var minutes = Math.floor(inSeconds / 60);
+            minutes = (minutes >= 10) ? minutes : "" + minutes;
+            var seconds = Math.floor(inSeconds % 60);
+            seconds = (seconds >= 10) ? seconds : "0" + seconds;
+            return minutes + ":" + seconds;
+        }
 
     }]);

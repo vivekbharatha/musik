@@ -11,8 +11,9 @@
 
 <md-content flex="100" layout="column" class="songs-list">
     <div class="song" layout="row" layout-wrap ng-repeat="song in songs" ng-click="triggerAudio(song)">
-        <p flex="95">{{ song.title }}</p>
-        <p flex="5"><i class="fa" ng-class="song.isPlaying && currentSong == song ? 'fa-pause': 'fa-play'" aria-hidden="true" ng-click="triggerAudio(song)"></i></p>
+        <p flex="90">{{ song.title }}</p>
+        <!--<p flex="5"><i class="fa" ng-class="song.isPlaying && currentSong == song ? 'fa-pause': 'fa-play'" aria-hidden="true"></i></p>-->
+        <p flex="10" ng-show="currentSong == song">{{time}}</p>
         <p flex="100" ng-show="currentSong == song"><md-progress-linear md-mode="determinate" value="{{progress}}"></md-progress-linear></p>
     </div>
     <audio src="" id="player" controls class="hide"></audio>

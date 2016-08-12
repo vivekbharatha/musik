@@ -63,3 +63,8 @@ input[type=file] {
 .text-align-right {
     text-align: right;
 }
+
+md-progress-linear .md-container .md-bar2 {
+    transition: transform 1s linear;
+    transistion: -webkit-transform 1s linear;
+}
