@@ -27,8 +27,23 @@ core.getMetaData = function (songsPath, cb) {
         }).catch(function (err) {
             callback(err);
         });
-    },function (err) {
-        if(err) return cb(err);
+    }, function (err) {
+        if (err) return cb(err);
+
+        songsMetaData = songsMetaData.map(function (songMetaData) {
+            var mainData = {
+                title: songMetaData.meta.data.title || songMetaData.name,
+                album: songMetaData.meta.data.album || '',
+                artist: songMetaData.meta.data.artist || '',
+                albumArt: songMetaData.meta.data.attached_picture || '',
+                trackNumber: songMetaData.meta.data.track_number || '',
+                year: songMetaData.meta.data.year || ''
+            };
+
+            mainData.path = songMetaData.meta.path || songMetaData.path;
+            return mainData;
+        });
+
         return cb(null, songsMetaData);
     });
 };
@@ -36,12 +51,12 @@ core.getMetaData = function (songsPath, cb) {
 var digFiles = function (path, extensions, files) {
     files = files || [];
     fs.readdirSync(path).forEach(function (file) {
-            var subPath = path + '/' + file;
-            if(fs.statSync(subPath).isDirectory()) {
-                digFiles(subPath, extensions, files);
-            } else if (extensions.indexOf(file.split('.').pop()) !== -1) {
-                    files.push(subPath);
-            }
+        var subPath = path + '/' + file;
+        if (fs.statSync(subPath).isDirectory()) {
+            digFiles(subPath, extensions, files);
+        } else if (extensions.indexOf(file.split('.').pop()) !== -1) {
+            files.push(subPath);
+        }
     });
 
     return files;

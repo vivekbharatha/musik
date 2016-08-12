@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "async": "2.0.1",
+    "dexie": "^1.4.1",
     "music-tag": "0.0.9"
   }
 }

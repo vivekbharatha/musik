@@ -3,6 +3,7 @@
  */
 
 var core = require('./lib/core');
+var db = require('./lib/db');
 
 angular.module('musix')
     .controller('HomeController', ['$scope', function ($scope) {
@@ -16,18 +17,43 @@ angular.module('musix')
             document.getElementById('musicPath').click();
         };
 
+        function init() {
+            db.getAllSongs()
+                .then(function (songs) {
+                    $scope.$apply(function () { $scope.songs = songs; });
+                })
+                .catch(function (err) {
+                    throw err;
+                });
+        }
+
+        init();
+
         $scope.onFileChange = function (element) {
+
+            if (element.files === undefined) return;
+
             $scope.musicPath = element.files[0].path;
             $scope.songsFilePaths = core.getFiles($scope.musicPath);
             core.getMetaData($scope.songsFilePaths, function (err, songsMetaData) {
-                $scope.$apply(function () {
-                    $scope.songs = songsMetaData;
-                })
+                if (err) throw err;
+                db.clean()
+                    .then(function () {
+                        return db.addBulkSongs(songsMetaData)
+                    }).then(function (result) {
+                    console.log('Saved in db successfully :)');
+                    $scope.$apply(function () { $scope.songs = songsMetaData; });
+                }).catch(function (err) {
+                    if (err) {
+                        console.log(err);
+                        throw err;
+                    }
+                });
             });
         };
 
         $scope.triggerAudio = function (song) {
-           $scope.currentSong = song;
+            $scope.currentSong = song;
             var Player = document.getElementById('player');
             Player.setAttribute('src', song.path);
             if (song.isPlaying) {

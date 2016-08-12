@@ -13,7 +13,7 @@
     <table>
         <tbody>
             <tr ng-repeat="song in songs">
-                <td>{{ song.name }}</td>
+                <td>{{ song.title }}</td>
                 <td><i class="fa" ng-class="song.isPlaying && currentSong == song ? 'fa-pause': 'fa-play'" aria-hidden="true" ng-click="triggerAudio(song)"></i></td>
             </tr>
         </tbody>
