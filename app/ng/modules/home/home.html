@@ -4,6 +4,21 @@
 <md-content flex="50" flex-offset="25">
     <form class="musicPathForm">
         <md-button class="md-raised" ng-click="selectFile()">Select Folder</md-button>
-        <input id="musicPath" type="file" directory webkitdirectory name="musicPath" onchange="angular.element(this).scope().onFileChange(this)" />
+        <input id="musicPath" type="file" directory webkitdirectory name="musicPath"
+               onchange="angular.element(this).scope().onFileChange(this)"/>
     </form>
+</md-content>
+
+<md-content flex="100">
+    <table>
+        <tbody>
+            <tr ng-repeat="song in songs">
+                <td>{{ song.name }}</td>
+                <td><i class="fa" ng-class="song.isPlaying && currentSong == song ? 'fa-pause': 'fa-play'" aria-hidden="true" ng-click="triggerAudio(song)"></i></td>
+            </tr>
+        </tbody>
+    </table>
+    <audio src="" id="player" controls  style="display:none;">
+
+    </audio>
 </md-content>
