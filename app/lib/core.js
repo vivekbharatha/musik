@@ -40,6 +40,7 @@ core.getMetaData = function (songsPath, cb) {
                 year: songMetaData.meta.data.year || ''
             };
 
+            mainData.title = mainData.title.replace(/[^\w\s]/gi, '');
             mainData.path = songMetaData.meta.path || songMetaData.path;
             return mainData;
         });

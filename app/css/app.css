@@ -1,21 +1,25 @@
 body {
-    font-family: Roboto-Thin, "Helvetica Neue", sans-serif;
-    background: #486951;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background: #eee;
 }
 
-h1, h2, h3, h4, h5, h6, p {
+h1, h2, h3, h4, h5, h6 {
     margin-bottom: 0;
 }
 
-.header-title {
-    color: white;
+p {
     margin: 0;
-    border-bottom: 1px solid #eee;
+}
+
+.header-title {
+    color: #333;
+    margin: 0;
+    border-bottom: 1px solid #333;
     text-align: center;
 }
 
 md-content {
-    background: transparent;
+    background: #eee;
 }
 
 input[type=file] {
@@ -24,4 +28,38 @@ input[type=file] {
 
 .musicPathForm {
     text-align: center;
+}
+
+.songs-list {
+    margin: 0 5px;
+    padding: 1px 0;
+    border: 1px solid #e0e0e0;
+}
+
+.song {
+    padding: 1px 15px;
+    margin-bottom: 1px;
+    cursor: pointer;
+    -webkit-user-select: none;
+}
+
+.song:focus, .song:active {
+    outline: none !important;
+}
+
+.song:hover {
+    box-shadow: 0 0 1px 0 #909090 ;
+}
+
+.song:nth-child(2n+2) {
+    background: #e0e0e0;
+}
+
+.song p {
+    font-size: 13px;
+    -webkit-user-select: none;
+}
+
+.text-align-right {
+    text-align: right;
 }

@@ -12,6 +12,7 @@ angular.module('musix')
         $scope.songs = [];
         $scope.songsFilePaths = [];
         $scope.currentSong = null;
+        $scope.progress = 0;
 
         $scope.selectFile = function () {
             document.getElementById('musicPath').click();
@@ -51,10 +52,17 @@ angular.module('musix')
                 });
             });
         };
-
+        var Player = document.getElementById('player');
+        Player.addEventListener('timeupdate', function () {
+            var currentTime = player.currentTime;
+            var duration = player.duration;
+            $scope.$apply(function () {
+                $scope.progress = currentTime * 100 / duration;
+            });
+        });
         $scope.triggerAudio = function (song) {
             $scope.currentSong = song;
-            var Player = document.getElementById('player');
+            console.log(player.currentTime);
             Player.setAttribute('src', song.path);
             if (song.isPlaying) {
                 Player.pause();
