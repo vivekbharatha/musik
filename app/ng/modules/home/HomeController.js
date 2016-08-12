@@ -15,6 +15,7 @@ angular.module('musix')
         $scope.selectFile = function () {
             document.getElementById('musicPath').click();
         };
+
         $scope.onFileChange = function (element) {
             $scope.musicPath = element.files[0].path;
             $scope.songsFilePaths = core.getFiles($scope.musicPath);

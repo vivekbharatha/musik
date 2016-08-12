@@ -3,7 +3,7 @@
  */
 var fs = require('fs');
 var async = require('async');
-var id3 = require('id3js');
+var id3 = require('music-tag');
 
 var core = {};
 
@@ -12,16 +12,20 @@ core.getFiles = function (path, extensions) {
     return digFiles(path, extensions);
 };
 
-core.getMetaData = function (songs, cb) {
+core.getMetaData = function (songsPath, cb) {
     var songsMetaData = [];
-    async.each(songs, function (song, callback) {
-        id3({file: song, type: id3.OPEN_LOCAL}, function (err, tags) {
+    async.each(songsPath, function (songPath, callback) {
+        id3.read(songPath).then(function (tag) {
+            var temp = songPath.split('/').pop().split('.');
+            temp.pop();
             songsMetaData.push({
-                path: song,
-                name: song.split('/').pop().split('.').shift(),
-                meta: tags
+                path: songPath,
+                name: temp.join(''),
+                meta: tag
             });
-            callback(err, tags);
+            callback();
+        }).catch(function (err) {
+            callback(err);
         });
     },function (err) {
         if(err) return cb(err);
