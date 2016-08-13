@@ -41,6 +41,9 @@ core.getMetaData = function (songsPath, cb) {
             };
 
             mainData.title = mainData.title.replace(/[^\w\s]/gi, '');
+            mainData.album = mainData.album.replace(/[^\w\s]/gi, '');
+            mainData.artist = mainData.artist.replace(/[^\w\s]/gi, '');
+            
             mainData.path = songMetaData.meta.path || songMetaData.path;
             return mainData;
         });

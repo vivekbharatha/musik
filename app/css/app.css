@@ -11,6 +11,10 @@ p {
     margin: 0;
 }
 
+* {
+    outline: none !important;
+}
+
 .header-title {
     color: #333;
     margin: 0;
@@ -27,13 +31,14 @@ input[type=file] {
 }
 
 .musicPathForm {
-    text-align: center;
+    position: absolute;
+    right: 0;
 }
 
 .songs-list {
     margin: 0 5px;
-    padding: 1px 0;
-    border: 1px solid #e0e0e0;
+    padding: 5px 0;
+    /*border: 1px solid #b2b2b2;*/
 }
 
 .song {
@@ -41,14 +46,12 @@ input[type=file] {
     margin-bottom: 1px;
     cursor: pointer;
     -webkit-user-select: none;
+    width: 100%;
 }
 
-.song:focus, .song:active {
-    outline: none !important;
-}
-
-.song:hover {
+.song:hover, .song:nth-child(2n+2):hover {
     box-shadow: 0 0 1px 0 #909090 ;
+    background: #ccc;
 }
 
 .song:nth-child(2n+2) {
@@ -68,3 +71,224 @@ md-progress-linear .md-container .md-bar2 {
     transition: transform 1s linear;
     transistion: -webkit-transform 1s linear;
 }
+
+.player-vivek {
+
+}
+
+.progress-bar {
+    position: relative;
+}
+
+.main-layout {
+    height: 100%;
+}
+
+.top-block {
+    background: #333;
+    color: #eee;
+    height: 10%;
+    max-height: 40px!important;
+}
+
+.current-song {
+    margin: 0 auto;
+}
+
+.main-block {
+    min-height: 70%;
+    max-height: 70%;
+    overflow: overlay;
+}
+
+.bottom-block {
+    height: 10%;
+    max-height: 50px !important;
+
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #b2b2b2;
+    font-size: 13px;
+}
+
+.table thead {
+    border-bottom: 1px solid #b2b2b2;
+    font-weight: bold;
+}
+
+.table tr {
+    border-collapse: collapse;
+    cursor: pointer;
+}
+
+m-spin {
+    width: 10px;
+    display: inline-block;
+    position: relative;
+    margin-bottom: 2px;
+}
+
+.truncate {
+    width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+md-slider {
+    height: 10px!important;
+}
+
+.search-song {
+    margin: 0 auto;
+    background: #333;
+
+}
+
+.search-song input {
+    color: #eee;
+}
+
+.search-song input::-webkit-input-placeholder {
+    color: #eee;
+}
+
+input[type=range] {
+    -webkit-appearance: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100px;
+    height: 5px;
+    background: rgba(63, 81, 181, 1);
+    border: none;
+    border-radius: 3px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: rgba(63, 81, 181, 1);
+    margin-top: -4px;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: rgba(63, 81, 181, .5);
+}
+
+
+/*------------------------------ Spinner -------------------------------*/
+@keyframes anim {
+    0% {
+        height: 1px;
+    }
+    50% {
+        height: 10px;
+    }
+    100% {
+        height: 1px;
+    }
+}
+@-webkit-keyframes anim {
+    0% {
+        height: 1px;
+    }
+    50% {
+        height: 10px;
+    }
+    100% {
+        height: 1px;
+    }
+}
+@-moz-keyframes anim {
+    0% {
+        height: 1px;
+    }
+    50% {
+        height: 10px;
+    }
+    100% {
+        height: 1px;
+    }
+}
+@-ms-keyframes anim {
+    0% {
+        height: 1px;
+    }
+    50% {
+        height: 10px;
+    }
+    100% {
+        height: 1px;
+    }
+}
+
+.bar {
+    width: 5px;
+    height: 100%;
+    background-color: #333;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: -2px;
+    -webkit-animation-name: anim;
+    -webkit-animation-iteration-count: infinite;
+    -moz-animation-name: anim;
+    -moz-animation-iteration-count: infinite;
+    -ms-animation-name: anim;
+    -ms-animation-iteration-count: infinite;
+    -o-animation-name: anim;
+    -o-animation-iteration-count: infinite;
+    animation-name: anim;
+    animation-iteration-count: infinite;
+}
+
+#bar-one {
+    -webkit-animation-duration: 1.9s;
+    -moz-animation-duration: 1.9s;
+    -ms-animation-duration: 1.9s;
+    -o-animation-duration: 1.9s;
+    animation-duration: 1.9s;
+    left: 0px;
+}
+
+#bar-two {
+    -webkit-animation-duration: 0.7s;
+    -moz-animation-duration: 0.7s;
+    -ms-animation-duration: 0.7s;
+    -o-animation-duration: 0.7s;
+    animation-duration: 0.7s;
+    left: 5px;
+}
+
+#bar-three {
+    -webkit-animation-duration: 1.1s;
+    -moz-animation-duration: 1.1s;
+    -ms-animation-duration: 1.1s;
+    -o-animation-duration: 1.1s;
+    animation-duration: 1.1s;
+    left: 10px;
+}
+
+spinner {
+    height: 10px;
+    width: 15px;
+    overflow: hidden;
+    transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+}
+
+
+
+
+
+
+

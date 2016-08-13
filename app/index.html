@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/app.css" />
   </head>
   <body ng-app="musix">
-  <div layout="row" flex ui-view layout-wrap>
+  <div layout="column" ui-view class="main-layout">
   </div>
   <script src="./bower_components/angular/angular.min.js"></script>
   <script src="./bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
@@ -18,6 +18,7 @@
   <script src="./bower_components/angular-messages/angular-messages.min.js"></script>
   <script src="./bower_components/angular-material/angular-material.min.js"></script>
   <script src="./ng/app.module.js"></script>
+  <script src="./ng/shared/m-spin.js"></script>
   <script src="./ng/app.routes.js"></script>
   <script src="./ng/modules/home/HomeController.js"></script>
 

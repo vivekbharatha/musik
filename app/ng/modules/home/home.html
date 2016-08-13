@@ -1,20 +1,73 @@
-<md-content flex="100">
-    <h1 class="header-title">MusiX</h1>
-</md-content>
-<md-content flex="50" flex-offset="25">
+<md-content layout="row" class="top-block">
+    <div class="current-song"><p>{{ currentSong.title }}</p></div>
+    <md-input-container md-no-float class="md-block search-song hide">
+        <input ng-model="searchSong" placeholder="Search song">
+    </md-input-container>
     <form class="musicPathForm">
-        <md-button class="md-raised" ng-click="selectFile()">Select Folder</md-button>
+        <md-button class="md-icon-button" aria-label="More" ng-click="selectFile()">
+            <md-tooltip md-direction="left">
+                Add Folder
+            </md-tooltip>
+            <i class="fa fa-plus" aria-hidden="true"></i>
+        </md-button>
         <input id="musicPath" type="file" directory webkitdirectory name="musicPath"
                onchange="angular.element(this).scope().onFileChange(this)"/>
     </form>
 </md-content>
 
-<md-content flex="100" layout="column" class="songs-list">
-    <div class="song" layout="row" layout-wrap ng-repeat="song in songs" ng-click="triggerAudio(song)">
-        <p flex="90">{{ song.title }}</p>
-        <!--<p flex="5"><i class="fa" ng-class="song.isPlaying && currentSong == song ? 'fa-pause': 'fa-play'" aria-hidden="true"></i></p>-->
-        <p flex="10" ng-show="currentSong == song">{{time}}</p>
-        <p flex="100" ng-show="currentSong == song"><md-progress-linear md-mode="determinate" value="{{progress}}"></md-progress-linear></p>
+<md-content flex="100" layout="row" class="songs-list main-block">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <td><i class="fa fa-music" aria-hidden="true"></i></td>
+                <td ng-click="sortType = 'title'; sortReverse = !sortReverse">
+                    Title
+                    <i ng-show="sortType == 'title' && !sortReverse" class="fa fa-caret-down"></i>
+                    <i ng-show="sortType == 'title' && sortReverse" class="fa fa-caret-up"></i>
+                </td>
+                <td ng-click="sortType = 'album'; sortReverse = !sortReverse">
+                    Album
+                    <i ng-show="sortType == 'album' && !sortReverse" class="fa fa-caret-down"></i>
+                    <i ng-show="sortType == 'album' && sortReverse" class="fa fa-caret-up"></i>
+                </td>
+                <td ng-click="sortType = 'artist'; sortReverse = !sortReverse">
+                    Artist
+                    <i ng-show="sortType == 'artist' && !sortReverse" class="fa fa-caret-down"></i>
+                    <i ng-show="sortType == 'artist' && sortReverse" class="fa fa-caret-up"></i>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="song in songs | orderBy:sortType:sortReverse | filter:searchSong" class="song" ng-click="triggerAudio(song)">
+                <td><m-spin ng-show="currentSong === song && isPlaying"></m-spin></td>
+                <td><p class="truncate">{{ song.title }}</p></td>
+                <td><p class="truncate">{{ song.album }}</p></td>
+                <td><p class="truncate">{{ song.artist }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+</md-content>
+
+<md-content flex="100" layout="row" layout-wrap class="player-vivek bottom-block">
+    <div flex="100" class="progress-bar">
+        <md-progress-linear md-mode="determinate" value="{{progress}}"></md-progress-linear>
+        <!--<md-slider flex ng-model="progress" min="0" max="100" aria-label="progress" class="md-primary"></md-slider>-->
+        <div layout="row" layout-align="center center">
+            <md-button class="md-icon-button" aria-label="Previous" ng-click="playPrevious()">
+                <i class="fa fa-step-backward" aria-hidden="true"></i>
+            </md-button>
+            <md-button class="md-icon-button" aria-label="More" ng-click="play()">
+                <i class="fa" ng-class="isPlaying ? 'fa-pause': 'fa-play'" aria-hidden="true"></i>
+            </md-button>
+            <md-button class="md-icon-button" aria-label="Next" ng-click="playNext()">
+                <i class="fa fa-step-forward" aria-hidden="true"></i>
+            </md-button>
+            <!--<input id="volume" min="0" max="1" step="0.1" type="range" onchange="angular.element(this).scope().setVolume()" />-->
+        </div>
     </div>
-    <audio src="" id="player" controls class="hide"></audio>
+    <div layout="row"  >
+        <audio src="" id="player" controls class="hide"></audio>
+    </div>
 </md-content>

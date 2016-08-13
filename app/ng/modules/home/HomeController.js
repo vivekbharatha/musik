@@ -14,6 +14,11 @@ angular.module('musix')
         $scope.currentSong = null;
         $scope.progress = 0;
 
+        $scope.isPlaying = false;
+        
+        $scope.sortType = 'title';
+        $scope.sortReverse = false;
+
         $scope.selectFile = function () {
             document.getElementById('musicPath').click();
         };
@@ -52,23 +57,28 @@ angular.module('musix')
                 });
             });
         };
-        var Player = document.getElementById('player');
-        Player.addEventListener('timeupdate', function () {
-            $scope.$apply(function () {
-                $scope.progress = player.currentTime * 100 / player.duration;
-                $scope.time = formatTime(player.currentTime) + ' / ' + formatTime(player.duration);
-            });
-        }, false);
+
         $scope.triggerAudio = function (song) {
-            $scope.currentSong = song;
-            Player.setAttribute('src', song.path);
-            if (song.isPlaying) {
-                Player.pause();
-                song.isPlaying = false;
+            if (song === undefined) return;
+
+            if (song === $scope.currentSong) {
+                if ($scope.isPlaying) {
+                    Player.pause();
+                    $scope.isPlaying = false;
+                } else {
+                    Player.play();
+                    $scope.isPlaying = true;
+                }
             } else {
+                $scope.currentSong = song;
+                Player.setAttribute('src', song.path);
                 Player.play();
-                song.isPlaying = true;
+                $scope.isPlaying = true;
             }
+        };
+
+        $scope.play = function () {
+            $scope.triggerAudio($scope.currentSong || $scope.songs[0]);
         };
 
         function formatTime(inSeconds) {
@@ -78,5 +88,36 @@ angular.module('musix')
             seconds = (seconds >= 10) ? seconds : "0" + seconds;
             return minutes + ":" + seconds;
         }
+
+        var Player = document.getElementById('player');
+
+        Player.addEventListener('timeupdate', function () {
+            $scope.$apply(function () {
+                $scope.progress = player.currentTime * 100 / player.duration;
+                $scope.time = formatTime(player.currentTime) + ' / ' + formatTime(player.duration);
+            });
+        }, false);
+
+        Player.addEventListener('ended', function () {
+            $scope.playNext();
+        });
+
+        $scope.playNext = function () {
+            var index = $scope.songs.indexOf($scope.currentSong);
+            if (index !== -1 && $scope.songs[++index]) {
+                $scope.triggerAudio($scope.songs[index]);
+            }
+        };
+
+        $scope.playPrevious = function () {
+            var index = $scope.songs.indexOf($scope.currentSong);
+            if (index !== -1 && $scope.songs[--index]) {
+                $scope.triggerAudio($scope.songs[index]);
+            }
+        };
+
+        $scope.setVolume = function () {
+            Player.volume = document.getElementById('volume').value;
+        };
 
     }]);
