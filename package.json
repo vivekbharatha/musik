@@ -15,10 +15,14 @@
   "devDependencies": {
     "electron-prebuilt": "^1.2.0",
     "grunt": "^1.0.1",
+    "grunt-bower-concat": "^1.0.0",
+    "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-cssmin": "^1.0.1",
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-uglify": "^2.0.0",
-    "jshint-stylish": "^2.2.1"
+    "grunt-wiredep": "^3.0.1",
+    "jshint-stylish": "^2.2.1",
+    "load-grunt-tasks": "^3.5.2"
   },
   "dependencies": {
     "async": "2.0.1",
