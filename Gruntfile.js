@@ -7,11 +7,6 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        wiredep: {
-            task: {
-                src: ['app/index.html']
-            }
-        },
         jshint: {
             options: {
                 reporter: require('jshint-stylish')
@@ -19,41 +14,70 @@ module.exports = function (grunt) {
             build: ['Gruntfile.js', 'app/lib/**/*.js', 'app/ng/**/*.js']
         },
         clean: {
-            build: ['dist'],
-            tmp: ['dist/tmp']
+            dist: ['.tmp', 'dist'],
+            tmp: ['.tmp']
         },
-        uglify: {
+        wiredep: {
+            task: {
+                src: ['app/index.html']
+            }
+        },
+        useminPrepare: {
+            html: 'app/index.html',
             options: {
-                banner: '/*\n <%= pkg.name %> - <%= grunt.template.today("yyyy-mm-dd") %> \n*/'
+                dest: 'dist/app'
+            }
+        },
+        usemin: {
+            html: 'dist/app/index.html',
+            css: 'dist/app/css/style.css',
+            options: {
+                assetsDir: ['dist/app']
+            }
+        },
+        copy: {
+            dist: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    cwd: 'app',
+                    dest: 'dist/app',
+                    src: [
+                        '*.{ico, png, txt}',
+                        '*.html',
+                        'ng/**/*.html'
+                    ]
+                }]
             },
-            build: {
-                files: {
-                    'dist/js/main.js': ['app/lib/**/*.js', 'app/ng/**/*.js']
-                }
-            },
-            bower: {
-                options: {
-                    mangle: true,
-                    compress: true
+            fonts: {
+                files: [{
+                    expand: true,
+                    cwd: 'app/bower_components/roboto-fontface/fonts',
+                    dest: 'dist/app/fonts',
+                    src: ['**']
                 },
-                files: {
-                    'dist/js/vendor.min.js': 'dist/tmp/bower.js'
-                }
-            }
-        },
-        cssmin: {
-            options: {
-                banner: '/*\n <%= pkg.name %> - <%= grunt.template.today("yyyy-mm-dd") %> \n*/'
+                {
+                    expand: true,
+                    cwd: 'app/bower_components/components-font-awesome/fonts',
+                    dest: 'dist/app/fonts',
+                    src: ['**']
+                }]
             },
-            build: {
-                files:{
-                    'dist/css/main.css': ['app/css/**/*.css']
-                }
-            }
-        },
-        bower_concat: {
-            all: {
-                dest: 'dist/tmp/bower.js'
+            electron: {
+                files: [{
+                    expand:true,
+                    dest: 'dist',
+                    src: [
+                        'main.js'
+                    ]
+                }, {
+                    expand:true,
+                    dest: 'dist',
+                    dot: true,
+                    src: [
+                        'node_modules/**'
+                    ]
+                }]
             }
         }
     });
@@ -61,8 +85,18 @@ module.exports = function (grunt) {
     grunt.registerTask('default', ['jshint:build', 'uglify:build', 'cssmin:build']);
     grunt.registerTask('buildbower', ['clean:build', 'bower_concat', 'uglify:bower', 'clean:tmp']);
 
-    grunt.registerTask('build', ['buildbower', 'default', 'clean:tmp']);
-
-
+    grunt.registerTask('build', [
+        'clean',
+        'wiredep',
+        'useminPrepare',
+        'concat:generated',
+        'cssmin:generated',
+        'uglify:generated',
+        'copy:dist',
+        'usemin',
+        'copy:fonts',
+        'copy:electron',
+        'clean:tmp'
+    ]);
 
 };

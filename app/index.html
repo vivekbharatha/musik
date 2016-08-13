@@ -4,20 +4,24 @@
     <meta charset="UTF-8">
     <title>Musix</title>
 
+    <!-- build:css css/vendor.min.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
     <link rel="stylesheet" href="bower_components/roboto-fontface/css/roboto/roboto-fontface.css" />
     <link rel="stylesheet" href="bower_components/roboto-fontface/css/roboto-condensed/roboto-condensed-fontface.css" />
     <link rel="stylesheet" href="bower_components/components-font-awesome/css/font-awesome.css" />
     <!-- endbower -->
+    <!-- endbuild -->
 
+    <!-- build:css css/style.min.css -->
     <link rel="stylesheet" href="css/app.css" />
+    <!-- endbuild -->
 
   </head>
   <body ng-app="musix">
   <div layout="column" ui-view class="main-layout">
   </div>
-
+  <!-- build:js js/vendor.min.js -->
   <!-- bower:js -->
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
@@ -26,11 +30,13 @@
   <script src="bower_components/angular-messages/angular-messages.js"></script>
   <script src="bower_components/angular-material/angular-material.js"></script>
   <!-- endbower -->
+  <!-- endbuild -->
 
+  <!-- build:js js/script.min.js -->
   <script src="./ng/app.module.js"></script>
   <script src="./ng/shared/m-spin.js"></script>
   <script src="./ng/app.routes.js"></script>
   <script src="./ng/modules/home/HomeController.js"></script>
-
+  <!-- endbuild -->
   </body>
 </html>
