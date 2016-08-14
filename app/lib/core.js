@@ -7,7 +7,7 @@
 
     var fs = require('fs');
     var async = require('async');
-    var id3 = require('music-tag');
+    var mm = require('musicmetadata');
 
     var core = {};
 
@@ -19,36 +19,31 @@
     core.getMetaData = function (songsPath, cb) {
         var songsMetaData = [];
         async.each(songsPath, function (songPath, callback) {
-            id3.read(songPath).then(function (tag) {
+
+            mm(fs.createReadStream(songPath), {duration: true}, function (err, data) {
+                if (err) return callback(err);
                 var temp = songPath.split('/').pop().split('.');
                 temp.pop();
-                songsMetaData.push({
-                    path: songPath,
-                    name: temp.join(''),
-                    meta: tag
-                });
+                data.name = temp.join('');
+                data.path = songPath;
+                songsMetaData.push(data);
                 callback();
-            }).catch(function (err) {
-                callback(err);
             });
         }, function (err) {
             if (err) return cb(err);
 
             songsMetaData = songsMetaData.map(function (songMetaData) {
                 var mainData = {
-                    title: songMetaData.meta.data.title || songMetaData.name,
-                    album: songMetaData.meta.data.album || '',
-                    artist: songMetaData.meta.data.artist || '',
-                    albumArt: songMetaData.meta.data.attached_picture || '',
-                    trackNumber: songMetaData.meta.data.track_number || '',
-                    year: songMetaData.meta.data.year || ''
+                    title: songMetaData.title || songMetaData.name,
+                    album: songMetaData.album || '',
+                    artist: songMetaData.artist[0] || '',
+                    albumArtist: songMetaData.albumartist[0] || '',
+                    albumArt: songMetaData.picture[0] || '',
+                    year: songMetaData.year || '',
+                    duration: songMetaData.duration || ''
                 };
 
-                mainData.title = mainData.title.replace(/[^\w\s]/gi, '');
-                mainData.album = mainData.album.replace(/[^\w\s]/gi, '');
-                mainData.artist = mainData.artist.replace(/[^\w\s]/gi, '');
-
-                mainData.path = songMetaData.meta.path || songMetaData.path;
+                mainData.path = songMetaData.path;
                 return mainData;
             });
 

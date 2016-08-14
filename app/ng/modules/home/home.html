@@ -1,5 +1,5 @@
 <md-content layout="row" class="top-block">
-    <div class="current-song"><p>{{ currentSong.title }}</p></div>
+    <h2 class="app-name">Musix</h2>
     <md-input-container md-no-float class="md-block search-song hide">
         <input ng-model="searchSong" placeholder="Search song">
     </md-input-container>
@@ -20,18 +20,21 @@
     <table class="table">
         <thead>
             <tr>
-                <td><i class="fa fa-music" aria-hidden="true"></i></td>
-                <td ng-click="sortType = 'title'; sortReverse = !sortReverse">
+                <td class="threep"><i class="fa fa-music" aria-hidden="true"></i></td>
+                <td class="three0p" ng-click="sortType = 'title'; sortReverse = !sortReverse">
                     Title
                     <i ng-show="sortType == 'title' && !sortReverse" class="fa fa-caret-down"></i>
                     <i ng-show="sortType == 'title' && sortReverse" class="fa fa-caret-up"></i>
                 </td>
-                <td ng-click="sortType = 'album'; sortReverse = !sortReverse">
+                <td class="sixp">
+                    Duration
+                </td>
+                <td class="three0p" ng-click="sortType = 'album'; sortReverse = !sortReverse">
                     Album
                     <i ng-show="sortType == 'album' && !sortReverse" class="fa fa-caret-down"></i>
                     <i ng-show="sortType == 'album' && sortReverse" class="fa fa-caret-up"></i>
                 </td>
-                <td ng-click="sortType = 'artist'; sortReverse = !sortReverse">
+                <td class="three0p" ng-click="sortType = 'artist'; sortReverse = !sortReverse">
                     Artist
                     <i ng-show="sortType == 'artist' && !sortReverse" class="fa fa-caret-down"></i>
                     <i ng-show="sortType == 'artist' && sortReverse" class="fa fa-caret-up"></i>
@@ -42,6 +45,7 @@
             <tr ng-repeat="song in songs | orderBy:sortType:sortReverse | filter:searchSong" class="song" ng-click="triggerAudio(song)">
                 <td><m-spin ng-show="currentSong === song && isPlaying"></m-spin></td>
                 <td><p class="truncate">{{ song.title }}</p></td>
+                <td><p class="truncate">{{ formatTime(song.duration) }}</p></td>
                 <td><p class="truncate">{{ song.album }}</p></td>
                 <td><p class="truncate">{{ song.artist }}</td>
             </tr>
@@ -52,8 +56,7 @@
 
 <md-content flex="100" layout="row" layout-wrap class="player-vivek bottom-block">
     <div flex="100" class="progress-bar">
-        <md-progress-linear md-mode="determinate" value="{{progress}}"></md-progress-linear>
-        <!--<md-slider flex ng-model="progress" min="0" max="100" aria-label="progress" class="md-primary"></md-slider>-->
+        <md-progress-linear md-mode="determinate" value="{{progress}}" id="timeline" class="timeline" ></md-progress-linear>
         <div layout="row" layout-align="center center">
             <md-button class="md-icon-button" aria-label="Previous" ng-click="playPrevious()">
                 <i class="fa fa-step-backward" aria-hidden="true"></i>
@@ -64,7 +67,8 @@
             <md-button class="md-icon-button" aria-label="Next" ng-click="playNext()">
                 <i class="fa fa-step-forward" aria-hidden="true"></i>
             </md-button>
-            <!--<input id="volume" min="0" max="1" step="0.1" type="range" onchange="angular.element(this).scope().setVolume()" />-->
+            <md-slider class="md-primary volume-setting" flex min="0" max="1" step="0.01" ng-model="volume" aria-label="volume">
+            </md-slider>
         </div>
     </div>
     <div layout="row"  >

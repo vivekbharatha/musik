@@ -7,13 +7,14 @@
     var db = require('./lib/db');
 
     angular.module('musix')
-        .controller('HomeController', ['$scope', function ($scope) {
+        .controller('HomeController', ['$scope', '$mdToast', function ($scope, $mdToast) {
 
             $scope.musicPath = null;
             $scope.songs = [];
             $scope.songsFilePaths = [];
             $scope.currentSong = null;
             $scope.progress = 0;
+            $scope.volume = 0.5;
 
             $scope.isPlaying = false;
 
@@ -24,9 +25,12 @@
                 document.getElementById('musicPath').click();
             };
 
+            var toast = $mdToast.simple().position('top right');
+
             function init() {
                 db.getAllSongs()
                     .then(function (songs) {
+                        $mdToast.show(toast.content('Songs loaded'));
                         $scope.$apply(function () { $scope.songs = songs; });
                     })
                     .catch(function (err) {
@@ -48,11 +52,12 @@
                         .then(function () {
                             return db.addBulkSongs(songsMetaData);
                         }).then(function (result) {
-                        console.log('Saved in db successfully :)');
+                        $mdToast.show(toast.content('Songs saved successfully :)'));
                         $scope.$apply(function () { $scope.songs = songsMetaData; });
                     }).catch(function (err) {
                         if (err) {
                             console.log(err);
+                            $mdToast.show(toast.content('Error on saving songs :('));
                             throw err;
                         }
                     });
@@ -82,26 +87,33 @@
                 $scope.triggerAudio($scope.currentSong || $scope.songs[0]);
             };
 
-            function formatTime(inSeconds) {
+            $scope.formatTime = function (inSeconds) {
                 var minutes = Math.floor(inSeconds / 60);
                 minutes = (minutes >= 10) ? minutes : "" + minutes;
                 var seconds = Math.floor(inSeconds % 60);
                 seconds = (seconds >= 10) ? seconds : "0" + seconds;
                 return minutes + ":" + seconds;
-            }
+            };
 
             var Player = document.getElementById('player');
 
             Player.addEventListener('timeupdate', function () {
                 $scope.$apply(function () {
                     $scope.progress = player.currentTime * 100 / player.duration;
-                    $scope.time = formatTime(player.currentTime) + ' / ' + formatTime(player.duration);
+                    $scope.time = $scope.formatTime(player.currentTime);
                 });
             }, false);
 
             Player.addEventListener('ended', function () {
                 $scope.playNext();
-            });
+            }, false);
+            
+            var timeline = document.getElementById('timeline');
+
+            timeline.addEventListener('click', function (e) {
+                if (!$scope.currentSong) return;
+                Player.currentTime = $scope.currentSong.duration * e.clientX / timeline.offsetWidth;
+            }, false);
 
             $scope.playNext = function () {
                 var index = $scope.songs.indexOf($scope.currentSong);
@@ -117,9 +129,9 @@
                 }
             };
 
-            $scope.setVolume = function () {
-                Player.volume = document.getElementById('volume').value;
-            };
+            $scope.$watch('volume', function (newVolume, oldVolume) {
+                Player.volume = newVolume;
+            });
 
         }]);
 })();

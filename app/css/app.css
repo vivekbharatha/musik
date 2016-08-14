@@ -22,6 +22,10 @@ p {
     text-align: center;
 }
 
+.app-name {
+    margin: auto;
+}
+
 md-content {
     background: #eee;
 }
@@ -132,7 +136,7 @@ m-spin {
 }
 
 .truncate {
-    width: 100px;
+    width: 150px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -182,6 +186,30 @@ input[type=range]:focus::-webkit-slider-runnable-track {
     background: rgba(63, 81, 181, .5);
 }
 
+.timeline {
+    cursor: pointer;
+}
+
+.three0p {
+    width: 30%;
+}
+
+.sixp {
+    width: 6%;
+}
+
+.threep {
+    width: 3%;
+}
+
+.volume-setting {
+    max-width: 40px;
+    margin-top: -38px;
+}
+
+md-toast {
+    bottom: 50px;
+}
 
 /*------------------------------ Spinner -------------------------------*/
 @keyframes anim {
