@@ -89,7 +89,7 @@
 
             $scope.formatTime = function (inSeconds) {
                 var minutes = Math.floor(inSeconds / 60);
-                minutes = (minutes >= 10) ? minutes : "" + minutes;
+                minutes = (minutes >= 10) ? minutes : "0" + minutes;
                 var seconds = Math.floor(inSeconds % 60);
                 seconds = (seconds >= 10) ? seconds : "0" + seconds;
                 return minutes + ":" + seconds;
@@ -134,4 +134,5 @@
             });
 
         }]);
+
 })();

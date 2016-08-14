@@ -76,10 +76,6 @@ md-progress-linear .md-container .md-bar2 {
     transistion: -webkit-transform 1s linear;
 }
 
-.player-vivek {
-
-}
-
 .progress-bar {
     position: relative;
 }
@@ -203,12 +199,32 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 }
 
 .volume-setting {
-    max-width: 40px;
-    margin-top: -38px;
+    max-width: 40px!important;
+    min-width: 40px!important;
+    margin-top: -5px;
 }
 
-md-toast {
-    bottom: 50px;
+.controls-bar p {
+    font-size: 12px;
+}
+
+.song-title {
+    overflow: hidden;
+    font-size: 12px;
+}
+
+._md-track-fill {
+    background-color: #000!important;
+}
+
+md-slider.md-default-theme.md-primary ._md-thumb:after, md-slider.md-primary ._md-thumb:after {
+    border-color: #000;
+    background-color: #000;
+}
+
+md-slider.md-default-theme._md-min ._md-thumb:after, md-slider._md-min ._md-thumb:after {
+    background-color: rgb(250,250,250);
+    border-color: rgba(0,0,0,0.38);
 }
 
 /*------------------------------ Spinner -------------------------------*/
@@ -315,8 +331,46 @@ spinner {
 }
 
 
+/*------------------------------------- Bars ------------------------------------------*/
+#s-bars {
+    height: 30px;
+    left: 25px;
+    margin: -30px 0 0 -20px;
+    position: absolute;
+    top: 40px;
+    width: 40px;
+}
 
+.s-bar {
+    background: #666;
+    bottom: 1px;
+    height: 3px;
+    position: absolute;
+    width: 3px;
+    animation: sound 0ms -800ms linear infinite alternate;
+}
 
+@keyframes sound {
+    0% {
+        opacity: .35;
+        height: 3px;
+    }
+    100% {
+        opacity: 1;
+        height: 28px;
+    }
+}
+
+.s-bar:nth-child(1)  { left: 1px; animation-duration: 474ms; }
+.s-bar:nth-child(2)  { left: 5px; animation-duration: 433ms; }
+.s-bar:nth-child(3)  { left: 9px; animation-duration: 407ms; }
+.s-bar:nth-child(4)  { left: 13px; animation-duration: 458ms; }
+.s-bar:nth-child(5)  { left: 17px; animation-duration: 400ms; }
+.s-bar:nth-child(6)  { left: 21px; animation-duration: 427ms; }
+.s-bar:nth-child(7)  { left: 25px; animation-duration: 441ms; }
+.s-bar:nth-child(8)  { left: 29px; animation-duration: 419ms; }
+.s-bar:nth-child(9)  { left: 33px; animation-duration: 487ms; }
+.s-bar:nth-child(10) { left: 37px; animation-duration: 442ms; }
 
 
 

@@ -57,18 +57,38 @@
 <md-content flex="100" layout="row" layout-wrap class="player-vivek bottom-block">
     <div flex="100" class="progress-bar">
         <md-progress-linear md-mode="determinate" value="{{progress}}" id="timeline" class="timeline" ></md-progress-linear>
-        <div layout="row" layout-align="center center">
-            <md-button class="md-icon-button" aria-label="Previous" ng-click="playPrevious()">
-                <i class="fa fa-step-backward" aria-hidden="true"></i>
-            </md-button>
-            <md-button class="md-icon-button" aria-label="More" ng-click="play()">
-                <i class="fa" ng-class="isPlaying ? 'fa-pause': 'fa-play'" aria-hidden="true"></i>
-            </md-button>
-            <md-button class="md-icon-button" aria-label="Next" ng-click="playNext()">
-                <i class="fa fa-step-forward" aria-hidden="true"></i>
-            </md-button>
-            <md-slider class="md-primary volume-setting" flex min="0" max="1" step="0.01" ng-model="volume" aria-label="volume">
-            </md-slider>
+        <div layout="row" class="controls-bar">
+            <div layout="row" flex="33" class="player-options" layout-align="center center">
+                <div id="s-bars" ng-show="isPlaying">
+                    <div class="s-bar"></div>
+                    <div class="s-bar"></div>
+                    <div class="s-bar"></div>
+                    <div class="s-bar"></div>
+                    <div class="s-bar"></div>
+                    <div class="s-bar"></div>
+                    <div class="s-bar"></div>
+                    <div class="s-bar"></div>
+                    <div class="s-bar"></div>
+                    <div class="s-bar"></div>
+                </div>
+                <p class="truncate song-title" >{{ currentSong.title }}</p>
+            </div>
+            <div layout="row" flex="33" layout-align="center center">
+                <p>{{ time ? time : '00:00' }}</p>
+                <md-button class="md-icon-button" aria-label="Previous" ng-click="playPrevious()">
+                    <i class="fa fa-step-backward" aria-hidden="true"></i>
+                </md-button>
+                <md-button class="md-icon-button" aria-label="More" ng-click="play()">
+                    <i class="fa" ng-class="isPlaying ? 'fa-pause': 'fa-play'" aria-hidden="true"></i>
+                </md-button>
+                <md-button class="md-icon-button" aria-label="Next" ng-click="playNext()">
+                    <i class="fa fa-step-forward" aria-hidden="true"></i>
+                </md-button>
+                <p>{{ currentSong ? formatTime(currentSong.duration) : '00:00' }}</p>
+            </div>
+            <div layout="row" flex="33" layout-align="center">
+                <md-slider class="md-primary volume-setting" flex min="0" max="1" step="0.01" ng-model="volume" aria-label="volume"></md-slider>
+            </div>
         </div>
     </div>
     <div layout="row"  >
