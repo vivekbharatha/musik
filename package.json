@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build-dev": "grunt build && cd dist && electron ."
+    "build-dev": "grunt build && cd dist && npm i --production && npm i electron-prebuilt && npm start",
+    "build-electron": "electron-packager dist --all"
   },
   "author": "VivekBharatha",
   "license": "MIT",
@@ -14,6 +15,7 @@
     "url": "https://github.com/vivekbharatha/musix.git"
   },
   "devDependencies": {
+    "electron-packager": "^7.5.1",
     "electron-prebuilt": "^1.2.0",
     "grunt": "^1.0.1",
     "grunt-bower-concat": "^1.0.0",

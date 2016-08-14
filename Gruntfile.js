@@ -52,9 +52,9 @@ module.exports = function (grunt) {
             fonts: {
                 files: [{
                     expand: true,
-                    cwd: 'app/bower_components/roboto-fontface/fonts',
-                    dest: 'dist/app/fonts',
-                    src: ['**']
+                    cwd: 'app/bower_components/roboto-fontface/fonts/roboto',
+                    dest: 'dist/fonts/roboto',
+                    src: ['**/*.woff2']
                 },
                 {
                     expand: true,
@@ -70,12 +70,19 @@ module.exports = function (grunt) {
                     src: [
                         'main.js'
                     ]
+                },{
+                    expand:true,
+                    dest: 'dist/app/',
+                    cwd: 'app',
+                    src: [
+                        'lib/**'
+                    ]
                 }, {
                     expand:true,
                     dest: 'dist',
                     dot: true,
                     src: [
-                        'node_modules/**'
+                        'package.json'
                     ]
                 }]
             }
@@ -86,6 +93,7 @@ module.exports = function (grunt) {
     grunt.registerTask('buildbower', ['clean:build', 'bower_concat', 'uglify:bower', 'clean:tmp']);
 
     grunt.registerTask('build', [
+        'jshint',
         'clean',
         'wiredep',
         'useminPrepare',
