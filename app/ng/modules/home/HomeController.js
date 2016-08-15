@@ -6,7 +6,7 @@
     var core = require('./lib/core');
     var db = require('./lib/db');
 
-    angular.module('musix')
+    angular.module('musik')
         .controller('HomeController', ['$scope', '$mdToast', function ($scope, $mdToast) {
 
             $scope.musicPath = null;

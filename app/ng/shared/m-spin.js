@@ -3,7 +3,7 @@
  */
 (function () {
     'use strict';
-    angular.module('musix')
+    angular.module('musik')
         .directive('mSpin', function () {
             var mSpin = {};
             mSpin.restrict = 'E';

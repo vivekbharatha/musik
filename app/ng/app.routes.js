@@ -3,7 +3,7 @@
  */
 (function () {
     'use strict';
-    angular.module('musix')
+    angular.module('musik')
         .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
             $urlRouterProvider.otherwise('/');
 

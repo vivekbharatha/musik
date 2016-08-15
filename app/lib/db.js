@@ -4,7 +4,7 @@
 (function () {
     'use strict';
     var Dexie = require('dexie');
-    var db = new Dexie('musix');
+    var db = new Dexie('musik');
 
     db.version(1).stores({
         songs: "++id, title, album",

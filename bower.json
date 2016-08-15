@@ -1,12 +1,12 @@
 {
-  "name": "Musix",
+  "name": "Musik",
   "description": "A music player application",
   "main": "main.js",
   "authors": [
     "VivekBharatha"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/vivekbharatha/musix",
+  "homepage": "https://github.com/vivekbharatha/musik",
   "ignore": [
     "**/.*",
     "node_modules",

@@ -3,5 +3,5 @@
  */
 (function () {
     'use strict';
-    angular.module('musix',['ui.router', 'ngMaterial']);
+    angular.module('musik',['ui.router', 'ngMaterial']);
 })();
