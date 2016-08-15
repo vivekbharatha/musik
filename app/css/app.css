@@ -59,7 +59,7 @@ input[type=file] {
 }
 
 .song:nth-child(2n+2) {
-    background: #e0e0e0;
+    background: #dedede;
 }
 
 .song p {
