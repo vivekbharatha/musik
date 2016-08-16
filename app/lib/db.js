@@ -7,8 +7,9 @@
     var db = new Dexie('musik');
 
     db.version(1).stores({
-        songs: "++id, title, album",
-        albums: "++id, album"
+        songs: '++id, title, album',
+        albums: '++id, album',
+        folders: '++id, location'
     });
 
     var DB = {};
@@ -23,6 +24,22 @@
             });
     };
 
+    DB.addFolder = function (folder) {
+        return db.folders.add(folder);
+    };
+
+    DB.getFolders = function () {
+        return db.folders.toArray();
+    };
+
+    DB.updateFolder = function (folder) {
+        return db.folders.put(folder);
+    };
+
+    DB.deleteFolder = function (id) {
+        return db.folders.where('id').equals(id).delete();
+    };
+
     DB.addBulkSongs = function (songs) {
         return db.songs.bulkAdd(songs);
     };
@@ -33,6 +50,10 @@
 
     DB.getAllSongs = function () {
         return db.songs.toArray();
+    };
+
+    DB.deleteAllSongs = function () {
+      return db.songs.clear();
     };
 
     DB.clean = function () {
