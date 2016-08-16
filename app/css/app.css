@@ -25,6 +25,7 @@ p {
 .app-name {
     font-family: Roboto-thin;
     margin: auto;
+    -webkit-user-select: none;
 }
 
 md-content {
@@ -124,6 +125,7 @@ md-progress-linear .md-container .md-bar2 {
     border-collapse: collapse;
     border: 1px solid rgb(224,224,224);
     font-size: 13px;
+    -webkit-user-select: none;
 }
 
 .table thead {

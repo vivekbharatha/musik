@@ -3,6 +3,8 @@
  */
 (function () {
     'use strict';
+    var remote = require('electron').remote;
+
     var core = require('./lib/core');
     var db = require('./lib/db');
 
@@ -133,6 +135,10 @@
             $scope.$watch('volume', function (newVolume, oldVolume) {
                 Player.volume = newVolume;
             });
+
+            $scope.exit = function () {
+                remote.getCurrentWindow().close();
+            };
 
         }]);
 
