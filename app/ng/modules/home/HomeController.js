@@ -140,9 +140,10 @@
                 remote.getCurrentWindow().close();
             };
 
+            $scope.albums = [];
+            $scope.checkAlbumDuplicates = [];  // album name
+
             $scope.homeView = function () {
-                $scope.albums = [];
-                $scope.checkAlbumDuplicates = [];  // album name
                 $scope.songs.forEach(function (song) {
                     if ($scope.checkAlbumDuplicates.indexOf(song.album) === -1) {
                         var album = {
@@ -150,13 +151,13 @@
                             albumImage: ''
                         };
                         if (song.albumArt && song.albumArt.data && song.albumArt.format) {
-                            album.albumImage = 'data:image/'+ song.albumArt.format + ';base64,' + btoa(String.fromCharCode.apply(null, song.albumArt.data));
+                            album.albumImage = window.URL.createObjectURL(new Blob([song.albumArt.data], { type: 'image/' + song.albumArt.format }));
                         }
                         $scope.albums.push(album);
                         $scope.checkAlbumDuplicates.push(song.album);
+                        album = null;
                     }
                 });
-                console.log($scope.albums);
                 $scope.showSongs = false;
             };
 
