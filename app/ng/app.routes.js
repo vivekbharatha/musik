@@ -17,6 +17,6 @@
                     url: '/library',
                     templateUrl: './ng/modules/library/library.html',
                     controller: 'LibraryController'
-                })
+                });
         }]);
 })();

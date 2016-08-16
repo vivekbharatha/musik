@@ -5,8 +5,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build-dev": "grunt build && cd dist && npm i --production && npm i electron-prebuilt && npm start",
-    "build-prod": "grunt build && cd dist && npm i --production && npm i electron-prebuilt && ENV=production npm start",
+    "build-dev": "grunt build && cd dist && npm i --production && npm start",
+    "build-prod": "grunt build && cd dist && npm i --production && ENV=production npm start",
     "build-electron": "electron-packager dist --all"
   },
   "author": "VivekBharatha",
