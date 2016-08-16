@@ -5,6 +5,7 @@ A minimalistic cross-platform music player
   * Sort as per the title, album, artist
 
 #### Features to built:
+  * Library options
   * Albums grid view
   * Playlists
   * Queue songs
