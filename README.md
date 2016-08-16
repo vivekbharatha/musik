@@ -1,5 +1,8 @@
 # Musik
 A minimalistic cross-platform music player
+
+![Musik Dependencies](https://david-dm.org/vivekbharatha/musik.svg)
+
 ### Features
   * Add your music folder as library
   * Sort as per the title, album, artist
