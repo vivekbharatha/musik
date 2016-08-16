@@ -4,6 +4,7 @@
 (function () {
     'use strict';
     var remote = require('electron').remote;
+    var async = require('async');
 
     var core = require('./lib/core');
     var db = require('./lib/db');
@@ -11,18 +12,22 @@
     angular.module('musik')
         .controller('LibraryController', ['$scope', '$mdToast', function ($scope, $mdToast) {
 
-            $scope.musicPath = null;
-            $scope.songs = [];
-            $scope.queue = [];
-            $scope.songsFilePaths = [];
-            $scope.currentSong = null;
-            $scope.progress = 0;
-            $scope.volume = 0.5;
+            $scope.libraryLocation = null;
+            $scope.folders = [];
+            $scope.editFolder = null;
 
-            $scope.isPlaying = false;
+            $scope.refreshList = function () {
+                db.getFolders().then(function (folders) {
+                    $scope.$apply(function () {
+                        $scope.folders = folders;
+                    });
+                })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            };
 
-            $scope.sortType = 'title';
-            $scope.sortReverse = false;
+            $scope.refreshList();
 
             $scope.selectFile = function () {
                 document.getElementById('musicPath').click();
@@ -30,111 +35,107 @@
 
             var toast = $mdToast.simple().position('top right');
 
-            function init() {
-                db.getAllSongs()
-                    .then(function (songs) {
-                        if (songs.length > 0) $mdToast.show(toast.content('Songs loaded'));
-                        $scope.$apply(function () { $scope.songs = songs; $scope.queue = songs; });
-                    })
-                    .catch(function (err) {
-                        throw err;
-                    });
-            }
-
-            init();
-
             $scope.onFileChange = function (element) {
+                if (element.files === undefined || element.files[0] === undefined || element.files[0].path === undefined) return;
 
-                if (element.files === undefined) return;
+                $scope.libraryLocation = element.files[0].path;
 
-                $scope.musicPath = element.files[0].path;
-                $scope.songsFilePaths = core.getFiles($scope.musicPath);
-                core.getMetaData($scope.songsFilePaths, function (err, songsMetaData) {
-                    if (err) throw err;
-                    db.clean()
+                if ($scope.editFolder) {
+                    var updateFolder = { id: $scope.editFolder.id, location: $scope.libraryLocation };
+                    db.updateFolder(updateFolder)
+                        .then(function (result) {
+                            $scope.refreshList();
+                            $scope.editFolder = null;
+                            $scope.$digest();
+                            document.getElementById('folderPath').value = '';
+                        })
+                        .catch(function (error) {
+                           console.log(error);
+                            $scope.editFolder = null;
+                            $scope.$digest();
+                            document.getElementById('folderPath').value = '';
+                        });
+                } else {
+                    for (var i = 0; i < $scope.folders.length; i++) {
+                        if ($scope.libraryLocation.includes($scope.folders[i].location)) {
+                            document.getElementById('folderPath').value = '';
+                            alert('Already a parent folder exists for your location =>' + $scope.libraryLocation);
+                            return;
+                        }
+                    }
+
+                    var folder = { location: $scope.libraryLocation };
+
+                    db.addFolder(folder)
+                        .then(function (id) {
+                            folder.id = id;
+                            $scope.folders.push(folder);
+                            $scope.$digest();
+                            document.getElementById('folderPath').value = '';
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                            document.getElementById('folderPath').value = '';
+                        });
+                }
+            };
+
+            $scope.edit = function (folder) {
+                $scope.editFolder = folder;
+                document.getElementById('musicPath').click();
+            };
+
+            $scope.delete = function (folder) {
+                if (!confirm('Are you sure to delete this folder ?')) return false;
+
+                db.deleteFolder(folder.id)
+                    .then(function (result) {
+                        if (result) {
+                            $scope.refreshList();
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+
+            };
+
+            $scope.updateLibrary = function () {
+                if ($scope.folders.length === 0) {
+                    db.deleteAllSongs()
+                        .then(function () {
+                            $mdToast.show(toast.content('Songs saved successfully :)'));
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                            $mdToast.show(toast.content('Error on saving songs :('));
+                        });
+                    return;
+                }
+                async.each($scope.folders, function (folder, callback) {
+                    var songsFilePaths = core.getFiles(folder.location);
+                    core.getMetaData(songsFilePaths, function (err, songsMetaData) {
+                        if (err) throw err;
+                        db.deleteAllSongs()
                         .then(function () {
                             return db.addBulkSongs(songsMetaData);
                         }).then(function (result) {
-                        $mdToast.show(toast.content('Songs saved successfully :)'));
-                        $scope.$apply(function () { $scope.songs = songsMetaData; });
-                    }).catch(function (err) {
-                        if (err) {
-                            console.log(err);
-                            $mdToast.show(toast.content('Error on saving songs :('));
-                            throw err;
-                        }
+                            callback();
+                        }).catch(function (err) {
+                            callback(err);
+                        });
                     });
-                });
-            };
-
-            $scope.triggerAudio = function (song) {
-                if (song === undefined) return;
-
-                if (song === $scope.currentSong) {
-                    if ($scope.isPlaying) {
-                        Player.pause();
-                        $scope.isPlaying = false;
+                }, function (err, result) {
+                   console.log(err, result);
+                    if (err) {
+                        console.log(err);
+                        $mdToast.show(toast.content('Error on saving songs :('));
+                        throw err;
                     } else {
-                        Player.play();
-                        $scope.isPlaying = true;
+                        $mdToast.show(toast.content('Songs saved successfully :)'));
                     }
-                } else {
-                    $scope.currentSong = song;
-                    Player.setAttribute('src', song.path);
-                    Player.play();
-                    $scope.isPlaying = true;
-                }
-            };
-
-            $scope.play = function () {
-                $scope.triggerAudio($scope.currentSong || $scope.songs[0]);
-            };
-
-            $scope.formatTime = function (inSeconds) {
-                var minutes = Math.floor(inSeconds / 60);
-                minutes = (minutes >= 10) ? minutes : "0" + minutes;
-                var seconds = Math.floor(inSeconds % 60);
-                seconds = (seconds >= 10) ? seconds : "0" + seconds;
-                return minutes + ":" + seconds;
-            };
-
-            var Player = document.getElementById('player');
-
-            Player.addEventListener('timeupdate', function () {
-                $scope.$apply(function () {
-                    $scope.progress = player.currentTime * 100 / player.duration;
-                    $scope.time = $scope.formatTime(player.currentTime);
                 });
-            }, false);
-
-            Player.addEventListener('ended', function () {
-                $scope.playNext();
-            }, false);
-            
-            var timeline = document.getElementById('timeline');
-
-            timeline.addEventListener('click', function (e) {
-                if (!$scope.currentSong) return;
-                Player.currentTime = $scope.currentSong.duration * e.clientX / timeline.offsetWidth;
-            }, false);
-
-            $scope.playNext = function () {
-                var index = $scope.songs.indexOf($scope.currentSong);
-                if (index !== -1 && $scope.songs[++index]) {
-                    $scope.triggerAudio($scope.songs[index]);
-                }
             };
-
-            $scope.playPrevious = function () {
-                var index = $scope.songs.indexOf($scope.currentSong);
-                if (index !== -1 && $scope.songs[--index]) {
-                    $scope.triggerAudio($scope.songs[index]);
-                }
-            };
-
-            $scope.$watch('volume', function (newVolume, oldVolume) {
-                Player.volume = newVolume;
-            });
 
             $scope.exit = function () {
                 remote.getCurrentWindow().close();

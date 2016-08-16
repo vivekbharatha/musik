@@ -1,4 +1,21 @@
 <top-bar></top-bar>
-<md-content>
-    <h1> Library </h1>
+<md-content layout="column" class="library-block">
+    <div layout="row">
+        <md-button flex="10" class="md-raised" ui-sref="home"><i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;Songs</md-button>
+    </div>
+    <div layout="row">
+        <form id="folderForm">
+            <md-button class="md-raised md-primary" ng-click="selectFile()">Add Folder</md-button>
+            <input id="folderPath" type="file" directory webkitdirectory name="musicPath"
+                   onchange="angular.element(this).scope().onFileChange(this)"/>
+            <md-button class="md-raised md-primary" ng-click="updateLibrary()">Update Library</md-button>
+        </form>
+    </div>
+    <div layout="column">
+        <div layout="row" class="folder-details" ng-repeat = "folder in folders">
+            <div flex="70" class="folder-location">{{ folder.location }}</div>
+            <div flex="15"><md-button class="md-raised" ng-click="edit(folder)">Edit</md-button></div>
+            <div flex="15"><md-button class="md-raised md-warn" ng-click="delete(folder)">Delete</md-button></div>
+        </div>
+    </div>
 </md-content>
