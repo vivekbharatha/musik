@@ -1,9 +1,41 @@
 <md-content layout="row" class="top-block">
-    <h2 class="app-name">Musik</h2>
+    <div layout="row" flex="10" layout-align="start center">
+        <md-button class="md-icon-button" aria-label="More" >
+            <md-tooltip md-direction="right">
+                Exit
+            </md-tooltip>
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </md-button>
+    </div>
+    <div layout="row" flex="80" layout-align="center center">
+        <h2 class="app-name">Musik</h2>
+    </div>
+    <div layout="row" flex="10" layout-align="end center">
+        <md-menu>
+            <md-button aria-label="Config" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                <md-tooltip md-direction="left">
+                    Config
+                </md-tooltip>
+                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+            </md-button>
+            <md-menu-content>
+                <md-menu-item>
+                    <md-button>Library</md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button>Playlist</md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button>Settings</md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </div>
     <md-input-container md-no-float class="md-block search-song hide">
         <input ng-model="searchSong" placeholder="Search song">
     </md-input-container>
-    <form class="musicPathForm">
+
+    <form class="musicPathForm hide">
         <md-button class="md-icon-button" aria-label="More" ng-click="selectFile()">
             <md-tooltip md-direction="left">
                 Add Folder
@@ -20,7 +52,7 @@
     <table class="table">
         <thead>
             <tr>
-                <td class="threep"><i class="fa fa-music" aria-hidden="true"></i></td>
+                <td class="threep"><i class="fa fa-heart-o" aria-hidden="true"></i></td>
                 <td class="three0p" ng-click="sortType = 'title'; sortReverse = !sortReverse">
                     Title
                     <i ng-show="sortType == 'title' && !sortReverse" class="fa fa-caret-down"></i>
@@ -43,7 +75,7 @@
         </thead>
         <tbody>
             <tr ng-repeat="song in songs | orderBy:sortType:sortReverse | filter:searchSong" class="song" ng-click="triggerAudio(song)">
-                <td><m-spin ng-show="currentSong === song && isPlaying"></m-spin></td>
+                <td><i class="fa fa-heart-o" aria-hidden="true"></i></td>
                 <td><p class="truncate">{{ song.title }}</p></td>
                 <td><p class="truncate">{{ formatTime(song.duration) }}</p></td>
                 <td><p class="truncate">{{ song.album }}</p></td>
@@ -54,12 +86,25 @@
 
 </md-content>
 
-<md-content flex="100" layout="row" layout-wrap class="player-vivek bottom-block">
+<md-content flex="100" layout="row" layout-wrap class="overflow-hidden bottom-block">
     <div flex="100" class="progress-bar">
         <md-progress-linear md-mode="determinate" value="{{progress}}" id="timeline" class="timeline" ></md-progress-linear>
         <div layout="row" class="controls-bar">
             <div layout="row" flex="33" class="player-options" layout-align="center center">
-                <div id="s-bars" ng-show="isPlaying">
+                <div layout="row" flex="20" class="view-options">
+                    <button class="view-button primary-color">
+                        <i class="fa fa-bars" aria-hidden="true"></i>
+                    </button>
+                    <button class="view-button">
+                        <i class="fa fa-th" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div layout="row" flex="80">
+                    <p class="truncate song-title" >{{ currentSong.title }}</p>
+                </div>
+
+
+                <div id="s-bars" ng-show="isPlaying" class="hide">
                     <div class="s-bar"></div>
                     <div class="s-bar"></div>
                     <div class="s-bar"></div>
@@ -71,9 +116,11 @@
                     <div class="s-bar"></div>
                     <div class="s-bar"></div>
                 </div>
-                <p class="truncate song-title" >{{ currentSong.title }}</p>
             </div>
             <div layout="row" flex="33" layout-align="center center">
+                <md-button class="md-icon-button" aria-label="Previous" ng-click="">
+                    <i class="fa fa-heart" aria-hidden="true"></i>
+                </md-button>
                 <p>{{ time ? time : '00:00' }}</p>
                 <md-button class="md-icon-button" aria-label="Previous" ng-click="playPrevious()">
                     <i class="fa fa-step-backward" aria-hidden="true"></i>
@@ -85,6 +132,21 @@
                     <i class="fa fa-step-forward" aria-hidden="true"></i>
                 </md-button>
                 <p>{{ currentSong ? formatTime(currentSong.duration) : '00:00' }}</p>
+                <md-menu>
+                    <md-button aria-label="Config" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                        <md-tooltip md-direction="right">
+                            Queue
+                        </md-tooltip>
+                        <i class="fa fa-list" aria-hidden="true"></i>
+                    </md-button>
+                    <md-menu-content>
+                        <div class="row songs-queue">
+                            <div ng-repeat="song in queue">
+                                <p class="song-in-queue"> {{song.title}} </p>
+                            </div>
+                        </div>
+                    </md-menu-content>
+                </md-menu>
             </div>
             <div layout="row" flex="33" layout-align="center">
                 <md-slider class="md-primary volume-setting" flex min="0" max="1" step="0.01" ng-model="volume" aria-label="volume"></md-slider>

@@ -11,6 +11,7 @@
 
             $scope.musicPath = null;
             $scope.songs = [];
+            $scope.queue = [];
             $scope.songsFilePaths = [];
             $scope.currentSong = null;
             $scope.progress = 0;
@@ -30,8 +31,8 @@
             function init() {
                 db.getAllSongs()
                     .then(function (songs) {
-                        $mdToast.show(toast.content('Songs loaded'));
-                        $scope.$apply(function () { $scope.songs = songs; });
+                        if (songs.length > 0) $mdToast.show(toast.content('Songs loaded'));
+                        $scope.$apply(function () { $scope.songs = songs; $scope.queue = songs; });
                     })
                     .catch(function (err) {
                         throw err;
