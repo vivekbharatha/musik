@@ -39,6 +39,26 @@ p {
     border-bottom: 1px solid #e0e0e0;
 }
 
+.albums-list {
+    padding: 5px;
+}
+
+.album-block {
+    border: 1px solid #e1e1e1;
+    background: #fff;
+    width: 100%;
+}
+
+.album-image {
+    width: 100%;
+}
+
+.album-title {
+    font-size: 18px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
 .header-title {
     color: #333;
     margin: 0;

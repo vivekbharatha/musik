@@ -10,9 +10,9 @@
 
     angular.module('musik')
         .controller('HomeController', ['$scope', '$mdToast', function ($scope, $mdToast) {
-
             $scope.musicPath = null;
             $scope.songs = [];
+            $scope.showSongs = true;
             $scope.queue = [];
             $scope.songsFilePaths = [];
             $scope.currentSong = null;
@@ -138,6 +138,26 @@
 
             $scope.exit = function () {
                 remote.getCurrentWindow().close();
+            };
+
+            $scope.homeView = function () {
+                $scope.albums = [];
+                $scope.checkAlbumDuplicates = [];  // album name
+                $scope.songs.forEach(function (song) {
+                    if ($scope.checkAlbumDuplicates.indexOf(song.album) === -1) {
+                        var album = {
+                            album: song.album || 'Unknown',
+                            albumImage: ''
+                        };
+                        if (song.albumArt && song.albumArt.data && song.albumArt.format) {
+                            album.albumImage = 'data:image/'+ song.albumArt.format + ';base64,' + btoa(String.fromCharCode.apply(null, song.albumArt.data));
+                        }
+                        $scope.albums.push(album);
+                        $scope.checkAlbumDuplicates.push(song.album);
+                    }
+                });
+                console.log($scope.albums);
+                $scope.showSongs = false;
             };
 
         }]);

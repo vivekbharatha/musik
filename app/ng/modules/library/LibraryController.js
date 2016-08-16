@@ -126,7 +126,6 @@
                         });
                     });
                 }, function (err, result) {
-                   console.log(err, result);
                     if (err) {
                         console.log(err);
                         $mdToast.show(toast.content('Error on saving songs :('));
