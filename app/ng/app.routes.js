@@ -12,6 +12,11 @@
                     url: '/',
                     templateUrl: './ng/modules/home/home.html',
                     controller: 'HomeController'
-                });
+                })
+                .state('library', {
+                    url: '/library',
+                    templateUrl: './ng/modules/library/library.html',
+                    controller: 'LibraryController'
+                })
         }]);
 })();

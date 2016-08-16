@@ -9,7 +9,7 @@
     var db = require('./lib/db');
 
     angular.module('musik')
-        .controller('HomeController', ['$scope', '$mdToast', function ($scope, $mdToast) {
+        .controller('LibraryController', ['$scope', '$mdToast', function ($scope, $mdToast) {
 
             $scope.musicPath = null;
             $scope.songs = [];
@@ -33,7 +33,7 @@
             function init() {
                 db.getAllSongs()
                     .then(function (songs) {
-                        // if (songs.length > 0) $mdToast.show(toast.content('Songs loaded'));
+                        if (songs.length > 0) $mdToast.show(toast.content('Songs loaded'));
                         $scope.$apply(function () { $scope.songs = songs; $scope.queue = songs; });
                     })
                     .catch(function (err) {

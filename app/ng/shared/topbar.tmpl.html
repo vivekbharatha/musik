@@ -1,0 +1,48 @@
+<md-content layout="row" class="top-block drag">
+    <div layout="row" flex="10" layout-align="start center">
+        <md-button class="md-icon-button" aria-label="More" ng-click="exit()">
+            <md-tooltip md-direction="right">
+                Exit
+            </md-tooltip>
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </md-button>
+    </div>
+    <div layout="row" flex="80" layout-align="center center">
+        <h2 class="app-name" ui-sref="home">Musik</h2>
+    </div>
+    <div layout="row" flex="10" layout-align="end center">
+        <md-menu>
+            <md-button aria-label="Config" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                <md-tooltip md-direction="left">
+                    Config
+                </md-tooltip>
+                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+            </md-button>
+            <md-menu-content>
+                <md-menu-item>
+                    <md-button ui-sref="library">Library</md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button>Playlist</md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button>Settings</md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </div>
+    <md-input-container md-no-float class="md-block search-song hide">
+        <input ng-model="searchSong" placeholder="Search song">
+    </md-input-container>
+
+    <form class="musicPathForm hide">
+        <md-button class="md-icon-button" aria-label="More" ng-click="selectFile()">
+            <md-tooltip md-direction="left">
+                Add Folder
+            </md-tooltip>
+            <i class="fa fa-plus" aria-hidden="true"></i>
+        </md-button>
+        <input id="musicPath" type="file" directory webkitdirectory name="musicPath"
+               onchange="angular.element(this).scope().onFileChange(this)"/>
+    </form>
+</md-content>
