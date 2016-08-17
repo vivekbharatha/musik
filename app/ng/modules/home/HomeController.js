@@ -34,10 +34,8 @@
                 db.getAllSongs()
                     .then(function (songs) {
                         // if (songs.length > 0) $mdToast.show(toast.content('Songs loaded'));
-                        var queue = songs.map( $scope.getQueueData );
                         $scope.$apply(function () {
                             $scope.songs = songs;
-                            $scope.queue = queue;
                         });
                     })
                     .catch(function (err) {
@@ -63,36 +61,12 @@
                     Player.setAttribute('src', song.path);
                     Player.play();
                     $scope.isPlaying = true;
+                    $scope.queue = $scope.songs.slice($scope.songs.indexOf(song) + 1);
                 }
             };
 
             $scope.play = function () {
                 $scope.triggerAudio($scope.currentSong || $scope.queue[0]);
-            };
-
-            $scope.getQueueData = function (song) {
-                var queueObj = {
-                    id: song.id,
-                    title: song.title,
-                    album: song.album,
-                    path: song.path
-                };
-
-                queueObj.duration = song.duration;
-
-                return queueObj;
-            };
-
-            $scope.getSongFromQueue = function (song) {
-                var returnValue = null;
-                for(var i = 0; i < $scope.queue.length; i++) {
-                    if (song.id === $scope.queue[i].id) {
-                        returnValue = $scope.queue[i];
-                        break;
-                    }
-                }
-
-                return returnValue;
             };
 
             $scope.formatTime = function (inSeconds) {
@@ -124,16 +98,13 @@
             }, false);
 
             $scope.playNext = function () {
-                var index = $scope.queue.indexOf($scope.currentSong);
-                if (index !== -1 && $scope.queue[++index]) {
-                    $scope.triggerAudio($scope.queue[index]);
-                }
+                $scope.triggerAudio($scope.queue.shift());
             };
 
             $scope.playPrevious = function () {
-                var index = $scope.queue.indexOf($scope.currentSong);
-                if (index !== -1 && $scope.queue[--index]) {
-                    $scope.triggerAudio($scope.queue[index]);
+                var index = $scope.songs.indexOf($scope.currentSong);
+                if (index !== -1 && $scope.songs[--index]) {
+                    $scope.triggerAudio($scope.songs[index]);
                 }
             };
 
@@ -164,13 +135,6 @@
                     }
                 });
                 $scope.showSongs = false;
-            };
-
-            $scope.removeFromQueue = function (song, e) {
-                var queueIndex = $scope.queue.indexOf(song);
-                if (queueIndex !== -1) {
-                    $scope.queue.splice(queueIndex, 1);
-                }
             };
 
         }]);
