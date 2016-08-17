@@ -9,7 +9,7 @@
     var db = require('./lib/db');
 
     angular.module('musik')
-        .controller('HomeController', ['$scope', '$mdToast', function ($scope, $mdToast) {
+        .controller('HomeController', ['$scope', '$filter', '$mdToast', function ($scope, $filter, $mdToast) {
             $scope.musicPath = null;
             $scope.songs = [];
             $scope.showSongs = true;
@@ -136,6 +136,13 @@
                 });
                 $scope.showSongs = false;
             };
+
+            $scope.$watch('sortReverse', function (newVal, oldVal) {
+                $scope.songs = $filter('orderBy')($scope.songs, $scope.sortType, newVal);
+                if($scope.currentSong) {
+                    $scope.queue = $scope.songs.slice($scope.songs.indexOf($scope.currentSong) + 1);
+                }
+            });
 
         }]);
 

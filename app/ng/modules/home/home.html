@@ -26,7 +26,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="song in songs | orderBy:sortType:sortReverse | filter:searchSong" class="song" ng-click="triggerAudio(song)" ng-class="currentSong.id === song.id ? 'primary-bkg' : ''">
+            <tr ng-repeat="song in songs | filter:searchSong" class="song" ng-click="triggerAudio(song)" ng-class="currentSong.id === song.id ? 'primary-bkg' : ''">
                 <td><i class="fa fa-heart-o" aria-hidden="true"></i></td>
                 <td><p class="truncate">{{ song.title }}</p></td>
                 <td><p class="truncate">{{ formatTime(song.duration) }}</p></td>
