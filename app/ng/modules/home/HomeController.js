@@ -144,6 +144,13 @@
                 }
             });
 
+            $scope.removeFromQueue = function (song, e) {
+                var queueIndex = $scope.queue.indexOf(song);
+                if (queueIndex !== -1) {
+                    $scope.queue.splice(queueIndex, 1);
+                }
+            };
+
         }]);
 
 })();
