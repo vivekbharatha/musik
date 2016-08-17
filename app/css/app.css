@@ -59,6 +59,33 @@ p {
     overflow: hidden;
 }
 
+.queue-list-item {
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.queue-no-songs {
+    padding-top: 5px;
+    text-align: center;
+}
+
+.songs-queue {
+    font-size: 11px;
+}
+
+.songs-queue h4 {
+    text-align: center;
+    margin: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.queue-list-item p {
+    cursor: pointer;
+}
+
+.queue-list-item p:hover {
+    background: rgb(238,238,238);
+}
+
 .header-title {
     color: #333;
     margin: 0;
@@ -247,6 +274,14 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 
 .primary-color {
     color: #3f51b5;
+}
+
+.primary-bkg {
+    background-color: rgb(140,158,255)
+}
+
+.rm-btn {
+    cursor: pointer;
 }
 
 .view-button {

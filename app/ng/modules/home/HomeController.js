@@ -34,7 +34,11 @@
                 db.getAllSongs()
                     .then(function (songs) {
                         // if (songs.length > 0) $mdToast.show(toast.content('Songs loaded'));
-                        $scope.$apply(function () { $scope.songs = songs; $scope.queue = songs; });
+                        var queue = songs.map( $scope.getQueueData );
+                        $scope.$apply(function () {
+                            $scope.songs = songs;
+                            $scope.queue = queue;
+                        });
                     })
                     .catch(function (err) {
                         throw err;
@@ -43,34 +47,10 @@
 
             init();
 
-            $scope.onFileChange = function (element) {
-
-                if (element.files === undefined) return;
-
-                $scope.musicPath = element.files[0].path;
-                $scope.songsFilePaths = core.getFiles($scope.musicPath);
-                core.getMetaData($scope.songsFilePaths, function (err, songsMetaData) {
-                    if (err) throw err;
-                    db.clean()
-                        .then(function () {
-                            return db.addBulkSongs(songsMetaData);
-                        }).then(function (result) {
-                        $mdToast.show(toast.content('Songs saved successfully :)'));
-                        $scope.$apply(function () { $scope.songs = songsMetaData; });
-                    }).catch(function (err) {
-                        if (err) {
-                            console.log(err);
-                            $mdToast.show(toast.content('Error on saving songs :('));
-                            throw err;
-                        }
-                    });
-                });
-            };
-
             $scope.triggerAudio = function (song) {
-                if (song === undefined) return;
+                if (!song) return;
 
-                if (song === $scope.currentSong) {
+                if ($scope.currentSong && song.id === $scope.currentSong.id) {
                     if ($scope.isPlaying) {
                         Player.pause();
                         $scope.isPlaying = false;
@@ -87,7 +67,32 @@
             };
 
             $scope.play = function () {
-                $scope.triggerAudio($scope.currentSong || $scope.songs[0]);
+                $scope.triggerAudio($scope.currentSong || $scope.queue[0]);
+            };
+
+            $scope.getQueueData = function (song) {
+                var queueObj = {
+                    id: song.id,
+                    title: song.title,
+                    album: song.album,
+                    path: song.path
+                };
+
+                queueObj.duration = song.duration;
+
+                return queueObj;
+            };
+
+            $scope.getSongFromQueue = function (song) {
+                var returnValue = null;
+                for(var i = 0; i < $scope.queue.length; i++) {
+                    if (song.id === $scope.queue[i].id) {
+                        returnValue = $scope.queue[i];
+                        break;
+                    }
+                }
+
+                return returnValue;
             };
 
             $scope.formatTime = function (inSeconds) {
@@ -110,7 +115,7 @@
             Player.addEventListener('ended', function () {
                 $scope.playNext();
             }, false);
-            
+
             var timeline = document.getElementById('timeline');
 
             timeline.addEventListener('click', function (e) {
@@ -119,16 +124,16 @@
             }, false);
 
             $scope.playNext = function () {
-                var index = $scope.songs.indexOf($scope.currentSong);
-                if (index !== -1 && $scope.songs[++index]) {
-                    $scope.triggerAudio($scope.songs[index]);
+                var index = $scope.queue.indexOf($scope.currentSong);
+                if (index !== -1 && $scope.queue[++index]) {
+                    $scope.triggerAudio($scope.queue[index]);
                 }
             };
 
             $scope.playPrevious = function () {
-                var index = $scope.songs.indexOf($scope.currentSong);
-                if (index !== -1 && $scope.songs[--index]) {
-                    $scope.triggerAudio($scope.songs[index]);
+                var index = $scope.queue.indexOf($scope.currentSong);
+                if (index !== -1 && $scope.queue[--index]) {
+                    $scope.triggerAudio($scope.queue[index]);
                 }
             };
 
@@ -143,7 +148,7 @@
             $scope.albums = [];
             $scope.checkAlbumDuplicates = [];  // album name
 
-            $scope.homeView = function () {
+            $scope.albumView = function () {
                 $scope.songs.forEach(function (song) {
                     if ($scope.checkAlbumDuplicates.indexOf(song.album) === -1) {
                         var album = {
@@ -151,7 +156,7 @@
                             albumImage: ''
                         };
                         if (song.albumArt && song.albumArt.data && song.albumArt.format) {
-                            album.albumImage = window.URL.createObjectURL(new Blob([song.albumArt.data], { type: 'image/' + song.albumArt.format }));
+                            album.albumImage = window.URL.createObjectURL(new Blob([song.albumArt.data], {type: 'image/' + song.albumArt.format}));
                         }
                         $scope.albums.push(album);
                         $scope.checkAlbumDuplicates.push(song.album);
@@ -159,6 +164,13 @@
                     }
                 });
                 $scope.showSongs = false;
+            };
+
+            $scope.removeFromQueue = function (song, e) {
+                var queueIndex = $scope.queue.indexOf(song);
+                if (queueIndex !== -1) {
+                    $scope.queue.splice(queueIndex, 1);
+                }
             };
 
         }]);

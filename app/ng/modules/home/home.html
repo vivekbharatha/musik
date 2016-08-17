@@ -26,7 +26,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="song in songs | orderBy:sortType:sortReverse | filter:searchSong" class="song" ng-click="triggerAudio(song)">
+            <tr ng-repeat="song in songs | orderBy:sortType:sortReverse | filter:searchSong" class="song" ng-click="triggerAudio(song)" ng-class="currentSong.id === song.id ? 'primary-bkg' : ''">
                 <td><i class="fa fa-heart-o" aria-hidden="true"></i></td>
                 <td><p class="truncate">{{ song.title }}</p></td>
                 <td><p class="truncate">{{ formatTime(song.duration) }}</p></td>
@@ -56,7 +56,7 @@
                     <button class="view-button" ng-class="showSongs ? 'primary-color' : ''" ng-click="showSongs=true;">
                         <i class="fa fa-bars" aria-hidden="true"></i>
                     </button>
-                    <button class="view-button" ng-class="!showSongs ? 'primary-color' : ''" ng-click="homeView()">
+                    <button class="view-button" ng-class="!showSongs ? 'primary-color' : ''" ng-click="albumView()">
                         <i class="fa fa-th" aria-hidden="true"></i>
                     </button>
                 </div>
@@ -102,8 +102,13 @@
                     </md-button>
                     <md-menu-content>
                         <div class="row songs-queue">
-                            <div ng-repeat="song in queue">
-                                <p class="song-in-queue"> {{song.title}} </p>
+                            <h4>Queue</h4>
+                            <p ng-show="!queue.length" class="queue-no-songs">No songs</p>
+                            <div ng-repeat="song in queue" class="queue-list-item">
+                                <p class="song-in-queue" ng-class="currentSong.id === song.id ? 'primary-bkg': ''">
+                                    <i ng-click="removeFromQueue(song)" md-prevent-menu-close="true" class="fa fa-times rm-btn" aria-hidden="true" ></i>
+                                    <span md-prevent-menu-close="true" ng-click="triggerAudio(song)">&nbsp;{{ song.title }}</span>
+                                </p>
                             </div>
                         </div>
                     </md-menu-content>
