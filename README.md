@@ -6,9 +6,9 @@ A minimalistic cross-platform music player
 ### Features
   * Add your music folder as library
   * Sort as per the title, album, artist
+  * Library options
 
 #### Features to built:
-  * Library options
   * Albums grid view
   * Playlists
   * Queue songs
