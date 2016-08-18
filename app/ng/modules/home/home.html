@@ -34,7 +34,7 @@
         </thead>
         <tbody>
             <tr ng-repeat="song in songs | filter:searchSong" class="song" ng-click="triggerAudio(song)" ng-class="currentSong.id === song.id ? 'primary-bkg' : ''">
-                <td><i class="fa fa-heart-o" aria-hidden="true"></i></td>
+                <td><i class="fa" ng-class="song.isFavorite ? 'fa-heart' : 'fa-heart-o'" aria-hidden="true" ng-click="triggerFavorite(song, $index); $event.stopPropagation();"></i></td>
                 <td><p class="truncate">{{ song.title }}</p></td>
                 <td><p class="truncate">{{ formatTime(song.duration) }}</p></td>
                 <td><p class="truncate">{{ song.album }}</p></td>
@@ -60,7 +60,7 @@
         <div layout="row" class="controls-bar">
             <div layout="row" flex="33" class="player-options" layout-align="center center">
                 <div layout="row" flex="20" class="view-options">
-                    <button class="view-button" ng-class="showSongs ? 'primary-color' : ''" ng-click="showSongs=true;">
+                    <button class="view-button" ng-class="showSongs ? 'primary-color' : ''" ng-click="songsView();">
                         <i class="fa fa-bars" aria-hidden="true"></i>
                     </button>
                     <button class="view-button" ng-class="!showSongs ? 'primary-color' : ''" ng-click="albumView()">
@@ -87,7 +87,7 @@
             </div>
             <div layout="row" flex="33" layout-align="center center">
                 <md-button class="md-icon-button" aria-label="Previous" ng-click="">
-                    <i class="fa fa-heart" aria-hidden="true"></i>
+                    <i class="fa" ng-class="showFavorites ? 'fa-heart' : 'fa-heart-o'" aria-hidden="true" ng-click="getFavorites()"></i>
                 </md-button>
                 <p>{{ time ? time : '00:00' }}</p>
                 <md-button class="md-icon-button" aria-label="Previous" ng-click="playPrevious()">

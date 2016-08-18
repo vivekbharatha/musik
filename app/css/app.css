@@ -287,6 +287,9 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 
 .primary-bkg {
     background-color: #3f51b5!important;
+}
+
+.primary-bkg p {
     color: #fff;
 }
 

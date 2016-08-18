@@ -7,7 +7,7 @@
     var db = new Dexie('musik');
 
     db.version(1).stores({
-        songs: '++id, title, album',
+        songs: '++id, title, album, isFavorite',
         albums: '++id, album',
         folders: '++id, location'
     });
@@ -46,6 +46,10 @@
 
     DB.addSong = function (song) {
         return db.songs.add(song);
+    };
+
+    DB.updateSong = function (id, changes) {
+      return db.songs.update(id, changes);
     };
 
     DB.getAllSongs = function (sortBy) {

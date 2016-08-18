@@ -13,6 +13,7 @@
             $scope.musicPath = null;
             $scope.songs = [];
             $scope.showSongs = true;
+            $scope.showFavorites = false;
             $scope.queue = [];
             $scope.songsFilePaths = [];
             $scope.currentSong = null;
@@ -63,6 +64,37 @@
                     $scope.isPlaying = true;
                     $scope.queue = $scope.songs.slice($scope.songs.indexOf(song) + 1);
                 }
+            };
+
+            $scope.triggerFavorite = function (song, index) {
+                var isFavorite = (song.isFavorite === undefined) ? true : !song.isFavorite;
+                db.updateSong(song.id, { isFavorite: isFavorite }).then(function (songUpdated) {
+                        song.isFavorite = isFavorite;
+                        $scope.$apply(function () {
+                            $scope.songs[index] = song;
+                            if ($scope.showFavorites) {
+                                $scope.songs = $filter('filter')($scope.songs, { isFavorite: true });
+                            }
+                        });
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                    });
+            };
+
+            $scope.getFavorites = function () {
+                $scope.showFavorites = !$scope.showFavorites;
+                if (!$scope.showFavorites) {
+                    $scope.songsView();
+                } else {
+                    $scope.songs = $filter('filter')($scope.songs, { isFavorite: true });
+                }
+            };
+
+            $scope.songsView = function () {
+                init();
+                $scope.showSongs = true;
+                $scope.showFavorites = ($scope.showFavorites) ? false : $scope.showFavorites
             };
 
             $scope.play = function () {
@@ -116,6 +148,8 @@
                 remote.getCurrentWindow().close();
             };
 
+
+
             $scope.albums = [];
             $scope.checkAlbumDuplicates = [];  // album name
 
@@ -139,7 +173,7 @@
 
             $scope.$watch('sortReverse', function (newVal, oldVal) {
                 $scope.songs = $filter('orderBy')($scope.songs, $scope.sortType, newVal);
-                if($scope.currentSong) {
+                if ($scope.currentSong) {
                     $scope.queue = $scope.songs.slice($scope.songs.indexOf($scope.currentSong) + 1);
                 }
             });
