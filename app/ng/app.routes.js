@@ -17,6 +17,11 @@
                     url: '/library',
                     templateUrl: './ng/modules/library/library.html',
                     controller: 'LibraryController'
+                })
+                .state('about', {
+                    url: '/about',
+                    templateUrl: './ng/modules/about/about.html',
+                    controller: 'AboutController'
                 });
         }]);
 })();
