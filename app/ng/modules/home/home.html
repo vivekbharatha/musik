@@ -1,7 +1,14 @@
 <top-bar></top-bar>
 <md-content flex="100" layout="row" layout-wrap class="songs-list main-block">
+    <div layout="column" flex layout-align="center center" ng-show="songs.length === 0 && showSongs">
+        <p class="empty-songs-message">
+            Heya chap! <br>
+            <span>Get music into your life!</span> <br>
+        </p>
+        <md-button class="md-raised" ui-sref="library"><span>Let's go</span></md-button>
+    </div>
     <!-- Songs listing Start -->
-    <table class="table" ng-show="showSongs">
+    <table class="table" ng-show="showSongs && songs.length !== 0">
         <thead>
             <tr>
                 <td class="threep"><i class="fa fa-heart-o" aria-hidden="true"></i></td>
