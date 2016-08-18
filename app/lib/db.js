@@ -48,8 +48,9 @@
         return db.songs.add(song);
     };
 
-    DB.getAllSongs = function () {
-        return db.songs.toArray();
+    DB.getAllSongs = function (sortBy) {
+        sortBy = sortBy || 'title';
+        return db.songs.orderBy(sortBy).toArray();
     };
 
     DB.deleteAllSongs = function () {
