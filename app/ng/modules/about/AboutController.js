@@ -5,7 +5,9 @@
     'use strict';
     angular.module('musik')
         .controller('AboutController', ['$scope', '$mdToast', function ($scope, $mdToast) {
-
+            $scope.exit = function () {
+                remote.getCurrentWindow().close();
+            };
         }]);
 
 })();

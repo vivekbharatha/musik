@@ -75,7 +75,8 @@ module.exports = function (grunt) {
                     dest: 'dist/app/',
                     cwd: 'app',
                     src: [
-                        'lib/**'
+                        'lib/**',
+                        'img/**'
                     ]
                 }, {
                     expand:true,
