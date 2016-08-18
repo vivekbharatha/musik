@@ -12,6 +12,7 @@
         .controller('HomeController', ['$scope', '$filter', '$mdToast', function ($scope, $filter, $mdToast) {
             $scope.musicPath = null;
             $scope.songs = [];
+            $scope.isSongsEmpty = false;
             $scope.showSongs = true;
             $scope.showFavorites = false;
             $scope.queue = [];
@@ -37,6 +38,7 @@
                         // if (songs.length > 0) $mdToast.show(toast.content('Songs loaded'));
                         $scope.$apply(function () {
                             $scope.songs = songs;
+                            $scope.isSongsEmpty = (songs.length === 0);
                         });
                     })
                     .catch(function (err) {
@@ -94,7 +96,7 @@
             $scope.songsView = function () {
                 init();
                 $scope.showSongs = true;
-                $scope.showFavorites = ($scope.showFavorites) ? false : $scope.showFavorites
+                $scope.showFavorites = ($scope.showFavorites) ? false : $scope.showFavorites;
             };
 
             $scope.play = function () {
