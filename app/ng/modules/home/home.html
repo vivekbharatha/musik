@@ -11,25 +11,25 @@
     <table class="table" ng-show="showSongs && songs.length !== 0">
         <thead>
             <tr>
-                <td class="threep"><i class="fa fa-heart-o" aria-hidden="true"></i></td>
-                <td class="three0p" ng-click="sortType = 'title'; sortReverse = !sortReverse">
+                <th class="threep"><i class="fa fa-heart-o" aria-hidden="true"></i></th>
+                <th class="three0p" ng-click="sortType = 'title'; sortReverse = !sortReverse">
                     Title
                     <i ng-show="sortType == 'title' && !sortReverse" class="fa fa-caret-down"></i>
                     <i ng-show="sortType == 'title' && sortReverse" class="fa fa-caret-up"></i>
-                </td>
-                <td class="sixp">
+                </th>
+                <th class="sixp">
                     Duration
-                </td>
-                <td class="three0p" ng-click="sortType = 'album'; sortReverse = !sortReverse">
+                </th>
+                <th class="three0p" ng-click="sortType = 'album'; sortReverse = !sortReverse">
                     Album
                     <i ng-show="sortType == 'album' && !sortReverse" class="fa fa-caret-down"></i>
                     <i ng-show="sortType == 'album' && sortReverse" class="fa fa-caret-up"></i>
-                </td>
-                <td class="three0p" ng-click="sortType = 'artist'; sortReverse = !sortReverse">
+                </th>
+                <th class="three0p" ng-click="sortType = 'artist'; sortReverse = !sortReverse">
                     Artist
                     <i ng-show="sortType == 'artist' && !sortReverse" class="fa fa-caret-down"></i>
                     <i ng-show="sortType == 'artist' && sortReverse" class="fa fa-caret-up"></i>
-                </td>
+                </th>
             </tr>
         </thead>
         <tbody>
