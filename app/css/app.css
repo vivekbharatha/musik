@@ -232,6 +232,10 @@ md-progress-linear .md-container .md-bar2 {
     cursor: pointer;
 }
 
+.table th {
+    text-align: left;
+}
+
 m-spin {
     width: 10px;
     display: inline-block;
