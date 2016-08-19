@@ -68,7 +68,8 @@ module.exports = function (grunt) {
                     expand:true,
                     dest: 'dist',
                     src: [
-                        'main.js'
+                        'main.js',
+                        'Craft.js'
                     ]
                 },{
                     expand:true,

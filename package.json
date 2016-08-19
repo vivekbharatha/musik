@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron .",
     "build-dev": "grunt build && cd dist && npm i --production && npm start",
-    "build-prod": "grunt build && cd dist && npm i --production && ENV=production npm start",
+    "build-prod": "grunt build && cd dist && npm i --production && node Craft.js",
     "clean": "grunt clean"
   },
   "author": "VivekBharatha",
