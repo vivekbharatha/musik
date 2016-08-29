@@ -7,11 +7,10 @@ A minimalistic cross-platform music player
   * Add your music folder as library
   * Sort as per the title, album, artist
   * Library options
-
+  * Queue songs
 #### Features to built:
   * Albums grid view
   * Playlists
-  * Queue songs
 
 ##### It is carved with:
   - [Nodes.js](https://nodejs.org) as platform
