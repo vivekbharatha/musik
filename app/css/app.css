@@ -314,6 +314,10 @@ input[type=range]:focus::-webkit-slider-runnable-track {
     cursor: pointer;
 }
 
+.cursor-pointer {
+    cursor: pointer;
+}
+
 .view-button {
     background: transparent;
     border: 1px solid rgb(224, 224, 224);
