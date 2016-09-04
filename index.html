@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Musik</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <style>
+        .btn-download {
+            display: block;
+            width: 50%;
+            margin-left: 25%;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row text-center">
+        <h1>Musik v0.0.1-alpha</h1>
+        <p>A minimalistic cross-platform music player</p>
+    </div>
+    <div class="row">
+        <div class="col-xs-6 col-xs-offset-3 well">
+            <h3 class="text-center">Downloads <span class="glyphicon glyphicon-download-alt"
+                                aria-hidden="true"></span></h3>
+            <a id="mac" class="btn-download btn btn-default" href="https://github.com/vivekbharatha/musik/releases/download/untagged-28ba8b6f2c282c20be74/musik-v0.0.1alpha-darwin-x64.zip">Mac</a>
+            <a id="windows-64" class="btn-download btn btn-default" href="https://github.com/vivekbharatha/musik/releases/download/untagged-28ba8b6f2c282c20be74/musik-v0.0.1alpha-win32-x64.zip">Windows 64bit</a>
+            <a id="windows-32" class="btn-download btn btn-default" href="https://github.com/vivekbharatha/musik/releases/download/untagged-28ba8b6f2c282c20be74/musik-v0.0.1alpha-win32-ia32.zip">Windows 32bit</a>
+            <a id="linux-64" class="btn-download btn btn-default" href="https://github.com/vivekbharatha/musik/releases/download/untagged-28ba8b6f2c282c20be74/musik-v0.0.1alpha-linux-x64.zip">Linux 64bit</a>
+            <a id="linux-32" class="btn-download btn btn-default" href="https://github.com/vivekbharatha/musik/releases/download/untagged-28ba8b6f2c282c20be74/musik-v0.0.1alpha-linux-ia32.zip">Linux 32bit</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6 col-xs-offset-3 well">
+            <h3>Features</h3>
+            <ul>
+                <li>Add your music folder as library</li>
+                <li>Sort as per the title, album, artist</li>
+                <li>Library options</li>
+                <li>Queue songs</li>
+            </ul>
+
+            <p><a class="cursor-pointer" target="_blank" href="https://github.com/vivekbharatha/musik">Made</a> with &hearts; from <a class="cursor-pointer" target="_blank" href="https://www.linkedin.com/in/vivek-bharatha-a76b3349">Vivek Bharatha</a></p>
+        </div>
+    </div>
+</div>
+<script>
+
+    if (navigator.appVersion.indexOf("Win") !=-1) {
+        if (navigator.appVersion.indexOf("64") != -1 )
+            document.getElementById('windows-64').className += ' btn-success';
+        else if (navigator.appVersion.indexOf("32") != -1 )
+            document.getElementById('windows-32').className += ' btn-success';
+    } else if (navigator.appVersion.indexOf("Mac")!=-1) {
+        document.getElementById('mac').className += ' btn-success';
+    } else if (navigator.appVersion.indexOf("Linux")!=-1) {
+        if (navigator.appVersion.indexOf("64") != -1 )
+            document.getElementById('linux-64').className += ' btn-success';
+        else if (navigator.appVersion.indexOf("32") != -1 )
+            document.getElementById('linux-32').className += ' btn-success';
+    }
+
+</script>
+</body>
+</html>
