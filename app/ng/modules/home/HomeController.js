@@ -3,7 +3,6 @@
  */
 (function () {
     'use strict';
-    var remote = require('electron').remote;
 
     var core = require('./lib/core');
     var db = require('./lib/db');

@@ -3,7 +3,6 @@
  */
 (function () {
     'use strict';
-    var remote = require('electron').remote;
     var async = require('async');
 
     var core = require('./lib/core');
@@ -16,10 +15,18 @@
             $scope.folders = [];
             $scope.editFolder = null;
 
-            $scope.refreshList = function () {
+            $scope.refreshList = function (options) {
+                if (typeof options !== 'object') {
+                    options = { updateLibrary: false };
+                }
+
                 db.getFolders().then(function (folders) {
                     $scope.$apply(function () {
                         $scope.folders = folders;
+                        if (options.updateLibrary === true) {
+                            $scope.updateLibrary();
+                        }
+
                     });
                 })
                     .catch(function (error) {
@@ -44,7 +51,7 @@
                     var updateFolder = { id: $scope.editFolder.id, location: $scope.libraryLocation };
                     db.updateFolder(updateFolder)
                         .then(function (result) {
-                            $scope.refreshList();
+                            $scope.refreshList({ updateLibrary: true });
                             $scope.editFolder = null;
                             $scope.$digest();
                             document.getElementById('folderPath').value = '';
@@ -70,6 +77,7 @@
                         .then(function (id) {
                             folder.id = id;
                             $scope.folders.push(folder);
+                            $scope.refreshList({ updateLibrary: true });
                             $scope.$digest();
                             document.getElementById('folderPath').value = '';
                         })
@@ -91,7 +99,7 @@
                 db.deleteFolder(folder.id)
                     .then(function (result) {
                         if (result) {
-                            $scope.refreshList();
+                            $scope.refreshList({ updateLibrary: true });
                         }
                     })
                     .catch(function (error) {
