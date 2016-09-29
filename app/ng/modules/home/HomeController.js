@@ -146,12 +146,6 @@
                 Player.volume = newVolume;
             });
 
-            $scope.exit = function () {
-                remote.getCurrentWindow().close();
-            };
-
-
-
             $scope.albums = [];
             $scope.checkAlbumDuplicates = [];  // album name
 

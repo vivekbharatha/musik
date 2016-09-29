@@ -136,10 +136,6 @@
                 });
             };
 
-            $scope.exit = function () {
-                remote.getCurrentWindow().close();
-            };
-
         }]);
 
 })();

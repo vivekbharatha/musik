@@ -52,6 +52,13 @@ p {
     border-bottom: 1px solid #e0e0e0;
 }
 
+.window-icon {
+    margin-right: 0!important;
+    padding-right: 0!important;
+    margin-left: 0!important;
+    padding-left: 0!important;
+}
+
 .albums-list {
     padding: 5px;
 }

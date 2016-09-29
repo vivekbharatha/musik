@@ -12,10 +12,6 @@
                 shell.openExternal(url);
             };
 
-            $scope.exit = function () {
-                remote.getCurrentWindow().close();
-            };
-
         }]);
 
 })();
