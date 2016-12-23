@@ -11,6 +11,7 @@
         .controller('HomeController', ['$scope', '$filter', '$mdToast', function ($scope, $filter, $mdToast) {
             $scope.musicPath = null;
             $scope.songs = [];
+            $scope.albumSongs = [];
             $scope.isSongsEmpty = false;
             $scope.showSongs = true;
             $scope.showFavorites = false;
@@ -63,7 +64,11 @@
                     Player.setAttribute('src', song.path);
                     Player.play();
                     $scope.isPlaying = true;
-                    $scope.queue = $scope.songs.slice($scope.songs.indexOf(song) + 1);
+                    if ($scope.albumSongs.length > 0) {
+                        $scope.queue = $scope.albumSongs.slice($scope.albumSongs.indexOf(song) + 1);
+                    } else {
+                        $scope.queue = $scope.songs.slice($scope.songs.indexOf(song) + 1);
+                    }
                 }
             };
 
@@ -96,6 +101,7 @@
                 init();
                 $scope.showSongs = true;
                 $scope.showFavorites = ($scope.showFavorites) ? false : $scope.showFavorites;
+                $scope.albumSongs = [];
             };
 
             $scope.play = function () {
@@ -178,6 +184,15 @@
                 if (queueIndex !== -1) {
                     $scope.queue.splice(queueIndex, 1);
                 }
+            };
+
+            /**
+             * Album Module
+             */
+            $scope.openAlbum = function (album) {
+                $scope.albumSongs = $scope.songs.filter(function (song) {
+                   return song.album === album.album;
+                });
             };
 
         }]);

@@ -46,11 +46,42 @@
 
     <!-- Albums Listing Start -->
         <div flex="20" class="albums-list" ng-show="!showSongs" ng-repeat="album in albums" layout-align="center center">
-            <div class="album-block" layout="column" layout-align="center center">
+            <div class="album-block" layout="column" layout-align="center center" ng-click="openAlbum(album)">
                 <img class="album-image" ng-src="{{ album.albumImage }}" width="100%">
                 <p class="album-title"> {{album.album}} </p>
             </div>
+
         </div>
+    <div class="albumSongs-list" ng-show="albumSongs && albumSongs.length !== 0">
+        <table class="table" >
+            <thead>
+            <tr>
+                <th class="threep"><i class="fa fa-heart-o" aria-hidden="true"></i></th>
+                <th class="three0p">
+                    Title
+                </th>
+                <th class="sixp">
+                    Duration
+                </th>
+                <!--<th class="three0p">
+                    Album
+                </th>-->
+                <th class="three0p">
+                    Artist
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="song in albumSongs" class="song" ng-click="triggerAudio(song)" ng-class="currentSong.id === song.id ? 'primary-bkg' : ''">
+                <td><i class="fa" ng-class="song.isFavorite ? 'fa-heart' : 'fa-heart-o'" aria-hidden="true" ng-click="triggerFavorite(song, $index); $event.stopPropagation();"></i></td>
+                <td><p class="truncate">{{ song.title }}</p></td>
+                <td><p class="truncate">{{ formatTime(song.duration) }}</p></td>
+                <!--<td><p class="truncate">{{ song.album }}</p></td>-->
+                <td><p class="truncate">{{ song.artist }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
     <!-- Albums Listing End -->
 </md-content>
 

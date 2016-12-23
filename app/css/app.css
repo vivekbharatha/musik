@@ -381,6 +381,17 @@ md-slider.md-default-theme._md-min ._md-thumb:after, md-slider._md-min ._md-thum
     border-color: rgba(0,0,0,0.38);
 }
 
+/* Albums Songs list */
+.albumSongs-list {
+    margin: 6px;
+    position: fixed;
+    bottom: 60px;
+    max-height: 200px;
+    min-height: 200px;
+    overflow: auto;
+    background: #fff;
+}
+
 /*------------------------------ Spinner -------------------------------*/
 @keyframes anim {
     0% {
