@@ -8,10 +8,11 @@ A minimalistic cross-platform music player
   * Sort as per the title, album, artist
   * Library options
   * Queue songs
+  * Albums grid view
 
 #### Features to built:
-  * Albums grid view
   * Playlists
+  * Repeat, RepeatAll, shuffle
 
 ##### It is carved with:
   - [Nodes.js](https://nodejs.org) as platform
